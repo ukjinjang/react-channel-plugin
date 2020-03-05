@@ -15,7 +15,7 @@ export interface ChannelTalkProps extends ChannelTalkPlugInSettings {
   /** On init. */
   onBoot?: (profile: ChannelTalkGuestMeta) => void;
   /** On error occurred. */
-  onError?: () => void;
+  onError?: (err?: any) => void;
   /** On chatbox show. */
   onShow?: () => void;
   /** On chatbox hide. */
@@ -259,9 +259,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       // Set init status.
       this.setState({ isInit: true });
     } catch (err) {
-      this.setState({ isInit: false });
-      if (this.props.onError) this.props.onError();
-      console.warn('[ChannelTalk] Error occurred while init ChannelTalk!', err);
+      this.handlePlugInError(err);
     }
   }
 
@@ -269,6 +267,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * Destory Channel Talk plugin.
    */
   private destroyPlugIn() {
+    this.setState({ isInit: false });
+
     if (typeof (window as any).ChannelIO !== 'function') {
       return;
     }
@@ -299,7 +299,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       if (guest) {
         if (this.props.onBoot) this.props.onBoot(guest);
       } else {
-        if (this.props.onError) this.props.onError();
+        this.handlePlugInError(new Error('ERR_BOOT_FAILED'));
       }
     });
 
@@ -336,6 +336,15 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
     (window as any).ChannelIO('onClickRedirect', (url: string) => {
       if (this.props.onClickRedirect) this.props.onClickRedirect(url);
     });
+  }
+
+  /**
+   * Handle error of plug in.
+   */
+  private handlePlugInError(err?: any) {
+    console.warn('[ChannelTalk] Error occurred while init ChannelTalk!', err);
+    if (this.props.onError) this.props.onError(err);
+    this.destroyPlugIn();
   }
 
   render() {
