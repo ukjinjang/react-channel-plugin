@@ -46,7 +46,7 @@ yarn.lock
 .vscode/*
 
 # misc
-.gitlab
+.github
 /.sass-cache
 /connect.lock
 /coverage
