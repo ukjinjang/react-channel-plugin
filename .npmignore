@@ -1,0 +1,62 @@
+# configs
+.babelrc
+.eslintignore
+.eslintrc.js
+.gitignore
+.prettierignore
+.prettierrc
+tsconfig.build.es.json
+tsconfig.build.json
+tsconfig.eslint.json
+tsconfig.json
+
+# app sources
+src/
+
+# test
+/__mocks__
+/.storybook
+/jest
+/static
+
+# compiled output
+/build
+/tmp
+/out-tsc
+/.rpt2_cache
+
+# dependencies
+/node_modules
+
+# NPM
+.npmrc
+.npmignore
+package-lock.json
+yarn.lock
+
+# IDEs and editors
+/.idea
+.editorconfig
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+
+# misc
+.gitlab
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+*.log
+
+# System Files
+.DS_Store
+Thumbs.db
