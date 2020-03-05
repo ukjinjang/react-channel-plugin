@@ -218,6 +218,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
     }
 
     // Init plugin on mount.
+    this.preInitPlugIn();
     this.initPlugIn();
   }
 
@@ -226,13 +227,27 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   }
 
   /**
+   * Make ready before plug in init.
+   */
+  private preInitPlugIn() {
+    const ch = function(...args: any[]) {
+      ch.c(args);
+    };
+    ch.q = [] as any[];
+    ch.c = function(args: any) {
+      ch.q.push(args);
+    };
+
+    (window as any).ChannelIO = ch;
+  }
+
+  /**
    * Initialize Channel Talk plugin.
    */
   private async initPlugIn(): Promise<void> {
     try {
       // If plugin already init, skip init.
-      if (this.state.isInit && (window as any).ChannelIO) {
-        this.setState({ isInit: true });
+      if (this.state.isInit) {
         return;
       }
 
@@ -240,10 +255,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       await new Promise(resolve => setTimeout(resolve, this.props.timeout));
 
       // Inject script.
-      await scriptInjector(PLUGIN_URL, 'ChannelIO');
-
-      // Wait 300ms after init script.
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await scriptInjector(PLUGIN_URL);
 
       // Register event listeners.
       this.registerEventListeners();
@@ -290,9 +302,6 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
     if (typeof (window as any).ChannelIO !== 'function') {
       return;
     }
-
-    // Clear all callbacks.
-    (window as any).ChannelIO('clearCallbacks');
 
     // Register a callback function when boot was completed.
     (window as any).ChannelIO('onBoot', (guest?: ChannelTalkGuestMeta) => {
