@@ -2,8 +2,9 @@
   "name": "react-channel-talk",
   "version": "1.0.0",
   "description": "Channel Talk wrapper for React.",
-  "repository": "https://github.com/doublestat/react-channel-talk",
   "author": "Uk-Jin Jang <doublestat@gmail.com>",
+  "repository": "https://github.com/ukjinjang/react-channel-talk",
+  "homepage": "https://github.com/ukjinjang/react-channel-talk",
   "license": "MIT",
   "keywords": [
     "react",
