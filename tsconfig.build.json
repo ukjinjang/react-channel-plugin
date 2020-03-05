@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": false,
+    "declaration": true,
+    "noEmit": false,
+    "outDir": "./lib"
+  },
+  "include": ["./src"],
+  "exclude": ["./src/*.stories.tsx"]
+}
