@@ -5,6 +5,11 @@
   "repository": "https://github.com/doublestat/react-channel-talk",
   "author": "Uk-Jin Jang <doublestat@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "channal-talk",
+    "customer-service"
+  ],
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "types": "./es/index.d.ts",
