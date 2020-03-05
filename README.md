@@ -1,5 +1,10 @@
 # react channel talk
 
+![npm](https://img.shields.io/npm/v/react-channel-talk)
+![Node.js Package](https://github.com/doublestat/react-channel-talk/workflows/Node.js%20Package/badge.svg)
+![license](https://img.shields.io/npm/l/react-channel-talk)
+
+
 [Channel Talk](https://channel.io) wrapper for React.
 
 ![screenshot.png](./.github/screenshot.png)
