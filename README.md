@@ -55,23 +55,31 @@ These are available configuration options for react channel talk.
 interface ChannelTalkProps extends ChannelTalkPlugInSettings {
   /** Timeout before Channel Talk init. */
   timeout?: number;
+  
   /** On init. */
   onBoot?: (profile: ChannelTalkGuestMeta) => void;
+
   /** On error occurred. */
   onError?: () => void;
+
   /** On chatbox show. */
   onShow?: () => void;
+
   /** On chatbox hide. */
   onHide?: () => void;
+
   /** On `unreadCount` is changed. */
   onChangeBadge?: (unreadCount: number) => void;
+
   /** On user success to create a chat. */
   onCreateChat?: () => void;
+
   /**
    * On user success to change their profile in the settings page and chats.
    * `profile` is an object of the user's profile.
    */
   onChangeProfile?: (profile: ChannelTalkUserProfile) => void;
+
   /**
    * On user clicks redirect images or buttons.
    * We pass the redirect url to a function.
@@ -82,43 +90,54 @@ interface ChannelTalkProps extends ChannelTalkPlugInSettings {
 interface ChannelTalkPlugInSettings {
   /** Channel plugin's key */
   pluginKey: string;
+
   /** User id. */
   userId?: string | number;
+
   /**
    * Css selector for custom button.
    * Use it with `hideDefaultLauncher` set to `true`.
    */
   customLauncherSelector?: string;
+
   /** Flag to decide whether to hide the default button. */
   hideDefaultLauncher?: boolean;
+
   /** Set content on the top of messages on the chat view. */
   chatHeaderContent?: string;
+
   /**
    * Decide whether it shows a navigation bar on the chat view.
    * Default value is false.
    */
   hideNavigationBarOnChatView?: boolean;
+
   /**
    * Flag to decide whether to track default events or not.
    * Default value is `true` */
   enabledTrackDefaultEvent?: boolean;
+
   /**
    * Flag to decide whether to track UTM source and referrer or not.
    * Default value is `true`
    */
   enabledUtmSourceTrack?: boolean;
+
   /**
    * Flag to decide whether to enter a chat room when you click the button.
    * Default value is `false`
    */
   openChatDirectlyAsPossible?: boolean;
+
   /** Custom plugin button's z-index. */
   zIndex?: number;
+
   /**
    * Set default language.
    * Only (en, ko, ja) available.
    */
   locale?: ChannelTalkLocale;
+
   /**
    * Profile object contains user information.
    * If this property is present, it will be used when boot is get called
