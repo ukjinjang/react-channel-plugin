@@ -1,10 +1,10 @@
-# React Channel Talk
+# React Channel Plugin
 
-![npm](https://img.shields.io/npm/v/react-channel-talk)
-![Node.js Package](https://github.com/ukjinjang/react-channel-talk/workflows/Node.js%20Package/badge.svg)
-![license](https://img.shields.io/npm/l/react-channel-talk)
+![npm](https://img.shields.io/npm/v/react-channel-plugin)
+![Node.js Package](https://github.com/ukjinjang/react-channel-plugin/workflows/Node.js%20Package/badge.svg)
+![license](https://img.shields.io/npm/l/react-channel-plugin)
 
-[Channel Talk](https://channel.io) wrapper for React.
+[Channel Talk](https://channel.io) plugin wrapper for React.
 
 ![screenshot.png](./.github/screenshot.png)
 
@@ -13,16 +13,16 @@
 #### Installation via NPM
 
 ```bash
-$ yarn add react-channel-talk
+$ yarn add react-channel-plugin
 ```
 
 ## Getting started
 
-Example code of react Channel Talk. See [Options](#options) and [APIs](#apis) for more details.
+Example code of react channel plugin. See [Options](#options) and [APIs](#apis) for more details.
 
 ```jsx
 import React from 'react';
-import { ChannelTalk } from 'react-channel-talk';
+import { ChannelTalk } from 'react-channel-plugin';
 import config from './config';
 
 const App = () => {
@@ -192,4 +192,4 @@ $ yarn start
 
 ## Issues
 
-`react-channel-talk` is a light-weight wrapper of [Channel Talk JS SDK](https://developers.channel.io/docs/what-is-a-channel-plugin). Because of this, the issue you're having likely isn't a react-channel-talk issue, but an issue with Channel Talk service itself. So please check it again, before submit new issue.
+`react-channel-plugin` is a light-weight wrapper of [Channel Talk JS SDK](https://developers.channel.io/docs/what-is-a-channel-plugin). Because of this, the issue you're having likely isn't a react-channel-plugin issue, but an issue with Channel Talk service itself. So please check it again, before submit new issue.

@@ -1,14 +1,16 @@
 {
-  "name": "react-channel-talk",
+  "name": "react-channel-plugin",
   "version": "1.0.0",
-  "description": "Channel Talk wrapper for React.",
+  "description": "Channel Talk plugin wrapper for React",
   "author": "Uk-Jin Jang <doublestat@gmail.com>",
-  "repository": "https://github.com/ukjinjang/react-channel-talk",
-  "homepage": "https://github.com/ukjinjang/react-channel-talk",
+  "repository": "https://github.com/ukjinjang/react-channel-plugin",
+  "homepage": "https://channel.io",
   "license": "MIT",
   "keywords": [
     "react",
-    "channal-talk",
+    "channalio",
+    "channal talk",
+    "live chat",
     "customer-service"
   ],
   "main": "./lib/index.js",
