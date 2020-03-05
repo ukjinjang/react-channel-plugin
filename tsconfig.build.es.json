@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ES2015",
+    "removeComments": false,
+    "declaration": true,
+    "noEmit": false,
+    "outDir": "./es"
+  },
+  "include": ["./src"],
+  "exclude": ["./src/*.stories.tsx"]
+}

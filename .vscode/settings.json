@@ -1,0 +1,20 @@
+{
+  // VS code editor
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": false
+  },
+
+  // ESLint with Typescript support
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Typescript
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  "vsintellicode.typescript.completionsEnabled": true
+}

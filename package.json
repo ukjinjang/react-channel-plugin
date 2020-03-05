@@ -1,0 +1,69 @@
+{
+  "name": "react-channel-talk",
+  "version": "1.0.0",
+  "description": "Channel Talk wrapper for React.",
+  "repository": "https://github.com/doublestat/react-channel-talk",
+  "author": "Uk-Jin Jang <doublestat@gmail.com>",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "start": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build.es.json",
+    "lint": "eslint --ext .ts --ext .tsx ./src",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "storybook": "start-storybook -p 8000 -c .storybook -s ./static --ci"
+  },
+  "peerDependencies": {
+    "react": ">=16.3.0"
+  },
+  "dependencies": {
+    "react": "^16.3.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@storybook/addon-a11y": "^5.3.13",
+    "@storybook/addon-actions": "^5.3.13",
+    "@storybook/addon-backgrounds": "^5.3.14",
+    "@storybook/addon-docs": "^5.3.13",
+    "@storybook/addon-info": "^5.3.13",
+    "@storybook/addon-knobs": "^5.3.13",
+    "@storybook/addon-viewport": "^5.3.13",
+    "@storybook/react": "^5.3.13",
+    "@types/node": "^10.17.16",
+    "@types/react": "^16.0.0",
+    "@types/webpack": "^4.41.6",
+    "@types/webpack-env": "^1.15.1",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "babel-loader": "^8.0.6",
+    "babel-preset-react-app": "^9.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-react-app": "^5.2.0",
+    "eslint-plugin-jsdoc": "^21.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react-app": "^6.2.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "react-dom": "^16.13.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.2",
+    "webpack": "^4.41.6",
+    "webpack-react-docgen-typescript": "^0.9.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
