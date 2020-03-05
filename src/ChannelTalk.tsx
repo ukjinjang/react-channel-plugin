@@ -8,14 +8,14 @@ declare global {
 }
 
 /**
- * Language of Channel Talk support.
+ * Language of Channel Talk plugin support.
  * Only (en, ko, ja) available.
  */
 export type ChannelTalkLocale = 'en' | 'ko' | 'ja';
 
 /** Props of ChannelTalk. */
 export interface ChannelTalkProps extends ChannelTalkPlugInSettings {
-  /** Timeout before Channel Talk init. */
+  /** Timeout before init Channel Talk plugin. */
   timeout?: number;
   /** On init. */
   onBoot?: (profile: ChannelTalkGuestMeta) => void;
@@ -138,7 +138,7 @@ export interface ChannelTalkUserProfile {
 const PLUGIN_URL = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
 
 /**
- * Channel talk plugin helper component.
+ * Channel Talk plugin helper component.
  * - ref: https://developers.channel.io/docs/web-chplugin
  */
 export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
@@ -156,7 +156,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   };
 
   /**
-   * Open channel talk.
+   * Open Channel Talk messenger.
    * - ref: https://developers.channel.io/docs/web-chplugin#section-show
    */
   static show = () => {
@@ -166,7 +166,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   };
 
   /**
-   * Open chatroom of channel talk.
+   * Open chatroom directly at Channel Talk messenger.
    * - ref: https://developers.channel.io/docs/web-chplugin#section-open-chat
    */
   static openChat = (chatId: string | number) => {
@@ -186,7 +186,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   };
 
   /**
-   * Close channel talk.
+   * Close Channel Talk messenger.
    * - ref: https://developers.channel.io/docs/web-chplugin#section-hide
    */
   static hide = () => {
@@ -196,7 +196,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   };
 
   /**
-   * Track an event for channel talk.
+   * Track an event for Channel Talk.
    * - ref: https://developers.channel.io/docs/web-chplugin#section-track
    */
   static track = (eventName: string, eventProperty: any) => {
@@ -300,7 +300,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   }
 
   /**
-   * Register event listeners for Channel Talk.
+   * Register event listeners for Channel Talk plugin.
    * - ref: https://developers.channel.io/docs/web-chplugin
    */
   private registerEventListeners() {
