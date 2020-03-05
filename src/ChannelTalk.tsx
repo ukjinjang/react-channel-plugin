@@ -222,13 +222,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   }
 
   componentWillUnmount() {
-    (window as any).ChannelIO('hide');
-    (window as any).ChannelIO('clearCallbacks');
-
-    setTimeout(() => {
-      // Shutdown channel plugin on unmount.
-      (window as any).ChannelIO('shutdown');
-    }, 1000);
+    this.destroyPlugIn();
   }
 
   /**
@@ -269,6 +263,23 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       if (this.props.onError) this.props.onError();
       console.warn('[ChannelTalk] Error occurred while init ChannelTalk!', err);
     }
+  }
+
+  /**
+   * Destory Channel Talk plugin.
+   */
+  private destroyPlugIn() {
+    if (typeof (window as any).ChannelIO !== 'function') {
+      return;
+    }
+
+    (window as any).ChannelIO('hide');
+    (window as any).ChannelIO('clearCallbacks');
+
+    setTimeout(() => {
+      // Shutdown channel plugin on unmount.
+      (window as any).ChannelIO('shutdown');
+    }, 1000);
   }
 
   /**
