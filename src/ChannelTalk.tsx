@@ -1,6 +1,12 @@
 import { Component } from 'react';
 import { scriptInjector } from './utils';
 
+declare global {
+  interface Window {
+    ChannelIO: any;
+  }
+}
+
 /**
  * Language of Channel Talk support.
  * Only (en, ko, ja) available.
@@ -154,8 +160,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-show
    */
   static show = () => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('show');
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('show');
     }
   };
 
@@ -164,8 +170,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-open-chat
    */
   static openChat = (chatId: string | number) => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('openChat', chatId);
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('openChat', chatId);
     }
   };
 
@@ -174,8 +180,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-lounge
    */
   static lounge = () => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('lounge');
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('lounge');
     }
   };
 
@@ -184,8 +190,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-hide
    */
   static hide = () => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('hide');
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('hide');
     }
   };
 
@@ -194,8 +200,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-track
    */
   static track = (eventName: string, eventProperty: any) => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('track', eventName, eventProperty);
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('track', eventName, eventProperty);
     }
   };
 
@@ -204,8 +210,8 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin#section-clear-callbacks
    */
   static clearCallbacks = () => {
-    if (typeof (window as any).ChannelIO === 'function') {
-      (window as any).ChannelIO('clearCallbacks');
+    if (typeof window.ChannelIO === 'function') {
+      window.ChannelIO('clearCallbacks');
     }
   };
 
@@ -237,7 +243,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       ch.q.push(args);
     };
 
-    (window as any).ChannelIO = ch;
+    window.ChannelIO = ch;
   }
 
   /**
@@ -265,7 +271,7 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
       };
 
       // Boot up with settings.
-      (window as any).ChannelIO('boot', plugInSettings);
+      window.ChannelIO('boot', plugInSettings);
 
       // Set init status.
       this.setState({ isInit: true });
@@ -280,16 +286,16 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
   private destroyPlugIn() {
     this.setState({ isInit: false });
 
-    if (typeof (window as any).ChannelIO !== 'function') {
+    if (typeof window.ChannelIO !== 'function') {
       return;
     }
 
-    (window as any).ChannelIO('hide');
-    (window as any).ChannelIO('clearCallbacks');
+    window.ChannelIO('hide');
+    window.ChannelIO('clearCallbacks');
 
     setTimeout(() => {
       // Shutdown channel plugin on unmount.
-      (window as any).ChannelIO('shutdown');
+      window.ChannelIO('shutdown');
     }, 1000);
   }
 
@@ -298,12 +304,12 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
    * - ref: https://developers.channel.io/docs/web-chplugin
    */
   private registerEventListeners() {
-    if (typeof (window as any).ChannelIO !== 'function') {
+    if (typeof window.ChannelIO !== 'function') {
       return;
     }
 
     // Register a callback function when boot was completed.
-    (window as any).ChannelIO('onBoot', (guest?: ChannelTalkGuestMeta) => {
+    window.ChannelIO('onBoot', (guest?: ChannelTalkGuestMeta) => {
       if (guest) {
         if (this.props.onBoot) this.props.onBoot(guest);
       } else {
@@ -312,36 +318,33 @@ export class ChannelTalk extends Component<ChannelTalkProps, ChannelTalkState> {
     });
 
     // Register a callback function when the chat list is shown.
-    (window as any).ChannelIO('onShow', () => {
+    window.ChannelIO('onShow', () => {
       if (this.props.onShow) this.props.onShow();
     });
 
     // Register a callback function when the chat list is hidden.
-    (window as any).ChannelIO('onHide', () => {
+    window.ChannelIO('onHide', () => {
       if (this.props.onHide) this.props.onHide();
     });
 
     // Register a callback when `unreadCount` is changed.
-    (window as any).ChannelIO('onChangeBadge', (unreadCount: number) => {
+    window.ChannelIO('onChangeBadge', (unreadCount: number) => {
       if (this.props.onChangeBadge) this.props.onChangeBadge(unreadCount);
     });
 
     // Register a callback when a user success to create a chat.
-    (window as any).ChannelIO('onCreateChat', () => {
+    window.ChannelIO('onCreateChat', () => {
       if (this.props.onCreateChat) this.props.onCreateChat();
     });
 
     // Register a callback when a user success to change their profile in the settings page and chats.
     // `profile` is an object of the user's profile.
-    (window as any).ChannelIO(
-      'onChangeProfile',
-      (profile: ChannelTalkUserProfile) => {
-        if (this.props.onChangeProfile) this.props.onChangeProfile(profile);
-      }
-    );
+    window.ChannelIO('onChangeProfile', (profile: ChannelTalkUserProfile) => {
+      if (this.props.onChangeProfile) this.props.onChangeProfile(profile);
+    });
 
     // Register a callback function when the chat list is hidden.
-    (window as any).ChannelIO('onClickRedirect', (url: string) => {
+    window.ChannelIO('onClickRedirect', (url: string) => {
       if (this.props.onClickRedirect) this.props.onClickRedirect(url);
     });
   }
