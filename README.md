@@ -1,9 +1,8 @@
-# react channel talk
+# React Channel Talk
 
 ![npm](https://img.shields.io/npm/v/react-channel-talk)
-![Node.js Package](https://github.com/doublestat/react-channel-talk/workflows/Node.js%20Package/badge.svg)
+![Node.js Package](https://github.com/ukjinjang/react-channel-talk/workflows/Node.js%20Package/badge.svg)
 ![license](https://img.shields.io/npm/l/react-channel-talk)
-
 
 [Channel Talk](https://channel.io) wrapper for React.
 
@@ -19,7 +18,7 @@ $ yarn add react-channel-talk
 
 ## Getting started
 
-Example code of react channel talk. See [Options](#options) and [APIs](#apis) for more details.
+Example code of react Channel Talk. See [Options](#options) and [APIs](#apis) for more details.
 
 ```jsx
 import React from 'react';
@@ -30,7 +29,7 @@ const App = () => {
   const user = useAppUser();
 
   const onTalkError = React.useCallback(err => {
-    console.error('Error:', err)
+    console.error('Error:', err);
   }, []);
 
   return (
@@ -49,18 +48,18 @@ const App = () => {
       />
     </>
   );
-}
+};
 ```
 
 ## Options
 
-These are available configuration options for react channel talk.
+These are available configuration options for react Channel Talk.
 
 ```ts
 interface ChannelTalkProps extends ChannelTalkPlugInSettings {
-  /** Timeout before Channel Talk init. */
+  /** Timeout before init Channel Talk plugin. */
   timeout?: number;
-  
+
   /** On init. */
   onBoot?: (profile: ChannelTalkGuestMeta) => void;
 
@@ -113,7 +112,7 @@ interface ChannelTalkPlugInSettings {
 
   /**
    * Decide whether it shows a navigation bar on the chat view.
-   * Default value is false.
+   * Default value is `false`.
    */
   hideNavigationBarOnChatView?: boolean;
 
@@ -155,11 +154,11 @@ interface ChannelTalkPlugInSettings {
 
 ##### ChannelTalk.show()
 
-Open channel talk.
+Open Channel Talk messenger.
 
 ##### ChannelTalk.openChat(chatId: string | number)
 
-Open chatroom of channel talk.
+Open chatroom directly at Channel Talk messenger.
 
 ##### ChannelTalk.lounge()
 
@@ -167,11 +166,11 @@ Go to the lounge view.
 
 ##### ChannelTalk.hide()
 
-Close channel talk.
+Close Channel Talk messenger.
 
 ##### ChannelTalk.track(eventName: string, eventProperty: any)
 
-Track an event for channel talk.
+Track an event for Channel Talk.
 
 ##### ChannelTalk.clearCallbacks()
 
@@ -193,4 +192,4 @@ $ yarn start
 
 ## Issues
 
-react-channel-talk is a light-weight wrapper of [Channel Talk JS SDK](https://developers.channel.io/docs/what-is-a-channel-plugin). Because of this, the issue you're having likely isn't a react-channel-talk issue, but an issue with Channel Talk service itself. So please check it again, before submit new issue.
+`react-channel-talk` is a light-weight wrapper of [Channel Talk JS SDK](https://developers.channel.io/docs/what-is-a-channel-plugin). Because of this, the issue you're having likely isn't a react-channel-talk issue, but an issue with Channel Talk service itself. So please check it again, before submit new issue.

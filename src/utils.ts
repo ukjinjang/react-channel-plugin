@@ -1,16 +1,9 @@
 /**
  * Inject script for oauth.
  * @param scriptUrl URL to import script.
- * @param global    Global variable for script.
- * @returns   Is script loaded successfully?
  */
-export function scriptInjector(scriptUrl: string, global?: string) {
+export function scriptInjector(scriptUrl: string) {
   return new Promise<void>((resolve, reject) => {
-    if (global && typeof (window as any)[global] !== 'undefined') {
-      resolve();
-      return;
-    }
-
     const ele = document.createElement('script');
 
     // Set attributes for script.
