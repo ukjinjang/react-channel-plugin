@@ -37,19 +37,9 @@ module.exports = {
 
     camelcase: 'off',
     'comma-dangle': 'off',
-    'no-console': 'warn',
+    'no-console': ['warn', { allow: ['debug', 'warn', 'error'] }],
     'no-multiple-empty-lines': 'off',
     'no-unused-expressions': 'off',
-
-    //
-    'import/no-webpack-loader-syntax': 'off',
-    'jsx-a11y/anchor-is-valid': 'off',
-    'jsx-a11y/click-events-have-key-events': 'off',
-    'jsx-a11y/mouse-events-have-key-events': 'off',
-    'jsx-a11y/no-autofocus': 'off',
-    'jsx-a11y/no-static-element-interactions': 'off',
-    'jsx-a11y/no-noninteractive-element-interactions': 'off',
-    'jsx-a11y/no-noninteractive-tabindex': 'off',
   },
   settings: {
     react: {
