@@ -1,0 +1,4 @@
+*.html
+*.md
+
+src/assets/**

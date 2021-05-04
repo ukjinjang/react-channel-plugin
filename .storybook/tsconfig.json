@@ -1,8 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "include": [
-    "../src/components/**/*.tsx",
-    "../src/components/**/*.mdx",
-    "../src/components/**/*.stories.tsx"
-  ]
-}
