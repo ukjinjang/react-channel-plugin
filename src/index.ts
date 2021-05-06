@@ -1,1 +1,1 @@
-export * from './ChannelTalk';
+export * from './ReactChannelIO';

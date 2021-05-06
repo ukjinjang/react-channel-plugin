@@ -1,29 +1,55 @@
+import { useEffect, useRef } from 'react';
+
 /**
- * Inject script for oauth.
- * @param scriptUrl URL to import script.
+ * Hook for callback from prop.
+ */
+export const useCallbackProp = <T>(cb: T) => {
+  const cbRef = useRef(cb);
+
+  useEffect(() => {
+    cbRef.current = cb;
+  }, [cb]);
+
+  return cbRef;
+};
+
+/**
+ * Check current env SSR.
+ */
+export function checkSSR() {
+  return typeof window === 'undefined';
+}
+
+/**
+ * Inject script.
  */
 export function scriptInjector(scriptUrl: string) {
   return new Promise<void>((resolve, reject) => {
-    const ele = document.createElement('script');
+    const el = document.createElement('script');
+    el.src = scriptUrl;
+    el.async = true;
+    el.defer = true;
 
-    // Set attributes for script.
-    ele.src = scriptUrl;
-    ele.async = true;
-    ele.defer = true;
-
-    // Set attributes for event listeners.
-    ele.onload = () => {
+    el.onload = () => {
       resolve();
-      ele.onload = null;
-      ele.onerror = null;
-    };
-    ele.onerror = () => {
-      reject('ERR_SCRIPT_INJECTION_FAILED');
-      ele.onload = null;
-      ele.onerror = null;
+      el.onload = null;
+      el.onerror = null;
     };
 
-    // Append to head.
-    document.head.appendChild(ele);
+    el.onerror = () => {
+      reject(new Error('Fail to inject SDK script.'));
+      el.onload = null;
+      el.onerror = null;
+    };
+
+    document.head.appendChild(el);
   });
+}
+
+/**
+ * Log warning.
+ */
+export function warnLogger(...msgs: string[]) {
+  // eslint-disable-next-line no-console
+  console.warn('[ReactChannelIO]', ...msgs);
 }
