@@ -5,6 +5,8 @@
     "src/**/*.tsx",
     "playground/**/*.ts",
     "playground/**/*.tsx",
+    "cypress/**/*.js",
+    "cypress/**/*.ts",
     "snowpack.config.ts"
   ]
 }

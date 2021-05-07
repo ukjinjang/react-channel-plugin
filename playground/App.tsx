@@ -117,7 +117,9 @@ const App: React.FC = () => {
           description="Open a chat with the given chat id and message. If the given chat id exists, appropriate chat will be opened. If not, lounge will be opened. In this case, the message will be ignored. If chat id is empty and message is given, new chat will be opened and the given message will be put in the input box. In this case, the support bot will not run. if chat id and message is both empty, new chat will be opened."
           link="https://developers.channel.io/docs/web-channel-io#openchat"
           isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => openChat()}
+          onActionButtonClick={() =>
+            openChat('', 'Hi, this is a test message!')
+          }
         />
 
         <FeatureSection
@@ -133,7 +135,15 @@ const App: React.FC = () => {
           description="Update user information."
           link="https://developers.channel.io/docs/web-channel-io#updateuser"
           isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => updateUser({})}
+          onActionButtonClick={() =>
+            updateUser({
+              profile: {
+                name: Math.random().toString(36).substr(2),
+                email: `${Math.random().toString(36).substr(2)}@channel.io`,
+                mobileNumber: `+8210${Math.round(Math.random() * 100000000)}`,
+              },
+            })
+          }
         />
 
         <FeatureSection

@@ -717,9 +717,10 @@ export interface ChannelIOUser {
  * an object contains key/value information.
  */
 export interface ChannelIOUserProfile extends Partial<Record<string, string>> {
-  mobileNumber?: string;
+  name?: string;
   email?: string;
   avatarUrl?: string;
+  mobileNumber?: string;
 }
 
 /**

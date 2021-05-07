@@ -1,8 +1,20 @@
 {
-  "presets": [
-    ["@babel/preset-env", { "targets": { "esmodules": true } }],
-    "@babel/preset-react",
-    "@babel/preset-typescript"
-  ],
-  "plugins": ["babel-plugin-styled-components"]
+  "env": {
+    "general": {
+      "presets": [
+        ["@babel/preset-env", { "targets": { "esmodules": true } }],
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+      ],
+      "plugins": ["babel-plugin-styled-components"]
+    },
+    "e2e": {
+      "presets": [
+        ["@babel/preset-env", { "targets": { "esmodules": true } }],
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+      ],
+      "plugins": ["babel-plugin-styled-components", "istanbul"]
+    }
+  }
 }

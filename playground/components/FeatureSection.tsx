@@ -75,6 +75,7 @@ const FeatureSection: React.FC<StyledSectionProps> = ({
 
       <StyledSectionAction>
         <StyledSectionActionButton
+          data-cy={`action-button-${title}`}
           disabled={isActionButtonDisabled}
           onClick={onActionButtonClick}
         >
