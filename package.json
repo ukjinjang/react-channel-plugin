@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "react": "^16.8.0",
-    "react-github-btn": "^1.2.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -76,6 +75,7 @@
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "react-dom": "^16.13.0",
+    "react-github-btn": "^1.2.0",
     "serve": "^11.3.2",
     "snowpack": "^3.3.7",
     "start-server-and-test": "^1.12.1",
