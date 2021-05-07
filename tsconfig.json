@@ -18,7 +18,9 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "typeRoots": ["node_modules/@types", "typings"],
-    "allowJs": true
+    "paths": {
+      "react-channel-plugin": ["src"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "playground"]
 }

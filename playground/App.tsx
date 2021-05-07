@@ -1,10 +1,9 @@
 import React from 'react';
+import { useChannelIOApi, useChannelIOEvent } from 'react-channel-plugin';
 import styled from 'styled-components';
 import AppHeader from './components/AppHeader';
 import EventConsole from './components/EventConsole';
 import FeatureSection from './components/FeatureSection';
-import { useChannelIOApi, useChannelIOEvent } from '../src';
-import './App.css';
 
 const StyledMain = styled.main`
   margin-left: auto;

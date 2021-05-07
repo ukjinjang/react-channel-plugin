@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ReactChannelIO } from '../src';
+import { ReactChannelIO } from 'react-channel-plugin';
 import App from './App';
 
 ReactDOM.render(

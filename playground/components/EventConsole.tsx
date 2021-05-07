@@ -1,6 +1,6 @@
 import React from 'react';
+import { useChannelIOEvent } from 'react-channel-plugin';
 import styled from 'styled-components';
-import { useChannelIOEvent } from '../../src';
 
 const StyledEventConsole = styled.div`
   margin-bottom: 2rem;
@@ -31,7 +31,7 @@ const EventConsole: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (log) {
+    if (log && textareaRef.current) {
       textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
     }
   }, [log]);
