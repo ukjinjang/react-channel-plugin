@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "src/**/*.tsx", "typings/*.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "playground/**/*.ts",
+    "playground/**/*.tsx",
+    "snowpack.config.ts"
+  ]
 }
