@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
-import { ChannelIO } from '../libs';
+import { ChannelIO } from '../ChannelIO';
 import { ReactChannelIOContext } from '../context';
 import type {
   ChannelIOApiShowMessengerMethodArgs,
@@ -17,10 +17,10 @@ import type {
   ChannelIOApiShowChannelButtonMethodArgs,
   ChannelIOApiHideChannelButtonMethodArgs,
   ChannelIOUser,
-} from '../libs';
+} from '../ChannelIO';
 
 /**
- * Using ChannelIO apis through hook.
+ * Using ChannelIO apis through React hook.
  *
  * @link https://developers.channel.io/docs/web-channel-io
  */

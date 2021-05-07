@@ -9,12 +9,12 @@ import { useCallbackProp } from '../utils';
 import type {
   ChannelIOEventMethod,
   ChannelIOEventMethodArgsRecords,
-} from '../libs';
+} from '../ChannelIO';
 
 /**
+ * Using ChannelIO events through React hook.
  *
- * @param method
- * @param callback
+ * @link https://developers.channel.io/docs/web-channel-io
  */
 export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
   method: M,
@@ -30,7 +30,7 @@ export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
   }
 
   /**
-   *
+   * Handle Channel IO event.
    */
   const handleChannelIOEvent = React.useCallback(
     (evt: Event) => {
@@ -53,13 +53,9 @@ export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
   );
 
   //
-  //
+  // Add event listener for Channel IO event.
   //
   useEffect(() => {
-    if (context.isBooted) {
-      return;
-    }
-
     document.addEventListener(
       REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
       handleChannelIOEvent,
@@ -73,5 +69,5 @@ export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
         false
       );
     };
-  }, [context.isBooted, handleChannelIOEvent]);
+  }, [handleChannelIOEvent]);
 };

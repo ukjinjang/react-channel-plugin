@@ -1,14 +1,10 @@
 import { createContext } from 'react';
-import type {
-  ChannelIOApiBootMethodArgs,
-  ChannelIOApiShutdownMethodArgs,
-  ChannelIOUser,
-} from './ChannelIO';
+import type { ChannelIOUser } from './ChannelIO';
 
 interface ReactChannelIOContextValue {
   isBooted: boolean;
-  boot: (...args: ChannelIOApiBootMethodArgs) => Promise<ChannelIOUser>;
-  shutdown: (...args: ChannelIOApiShutdownMethodArgs) => void;
+  boot: () => Promise<ChannelIOUser>;
+  shutdown: () => void;
 }
 
 export const ReactChannelIOContext = createContext(

@@ -1,4 +1,4 @@
-import { checkSSR, warnLogger } from 'src/utils';
+import { checkSSR, warnLogger } from './utils';
 
 type Tail<T extends readonly any[]> = ((...t: T) => void) extends (
   m: any,

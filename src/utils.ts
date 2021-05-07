@@ -23,7 +23,11 @@ export function checkSSR() {
 /**
  * Inject script.
  */
-export function scriptInjector(scriptUrl: string) {
+export async function scriptInjector(scriptUrl: string) {
+  if (document.querySelector(`[src="${scriptUrl}"]`)) {
+    return;
+  }
+
   return new Promise<void>((resolve, reject) => {
     const el = document.createElement('script');
     el.src = scriptUrl;
