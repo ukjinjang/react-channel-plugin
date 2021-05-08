@@ -9,7 +9,7 @@ module.exports = {
     '@snowpack/plugin-react-refresh',
     '@snowpack/plugin-dotenv',
     '@snowpack/plugin-typescript',
-    '@snowpack/plugin-babel',
+    process.env.BABEL_ENV ? '@snowpack/plugin-babel' : null,
     [
       '@snowpack/plugin-webpack',
       {
@@ -28,7 +28,7 @@ module.exports = {
         },
       },
     ],
-  ],
+  ].filter(Boolean),
   routes: [
     /* Enable an SPA Fallback in development: */
     { match: 'routes', src: '.*', dest: '/index.html' },
@@ -38,6 +38,7 @@ module.exports = {
   },
   packageOptions: {
     knownEntrypoints: ['github-buttons', 'react/jsx-runtime'],
+    polyfillNode: true,
   },
   devOptions: {
     open: 'none',
