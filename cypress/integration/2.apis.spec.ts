@@ -1,5 +1,5 @@
 describe('Plugin APIs', () => {
-  it('should show plugin messenger, when `showMessenger` emits', () => {
+  it('should show plugin messenger, when `showMessenger` called', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
     cy.get('button[data-cy="action-button-showMessenger"]').click();
 
@@ -8,7 +8,7 @@ describe('Plugin APIs', () => {
       .should('contain.text', 'Channel.io');
   });
 
-  it('should hide plugin messenger, when `hideMessenger` emits', () => {
+  it('should hide plugin messenger, when `hideMessenger` called', () => {
     cy.get('button[data-cy="action-button-hideMessenger"]').click();
 
     cy.getChannelIOIframeBody()
@@ -18,7 +18,7 @@ describe('Plugin APIs', () => {
     cy.get('[data-ch-testid="launcher"]').should('exist');
   });
 
-  it('should open chatroom of plugin messenger, when `openChat` emits', () => {
+  it('should open chatroom of plugin messenger, when `openChat` called', () => {
     cy.get('button[data-cy="action-button-openChat"]').click();
 
     cy.getChannelIOIframeBody()
@@ -28,7 +28,7 @@ describe('Plugin APIs', () => {
       .should('have.value', 'Hi, this is a test message!');
   });
 
-  it('should back to lounge of plugin messenger, when `lounge` emits', () => {
+  it('should back to lounge of plugin messenger, when `lounge` called', () => {
     cy.get('button[data-cy="action-button-lounge"]').click();
 
     cy.getChannelIOIframeBody()
@@ -36,7 +36,7 @@ describe('Plugin APIs', () => {
       .should('exist');
   });
 
-  it('should change user profile of plugin messenger, when `updateUser` emits', () => {
+  it('should change user profile of plugin messenger, when `updateUser` called', () => {
     cy.getChannelIOIframeBody()
       .find('[data-ch-testid="settings-icon"]')
       .click();
@@ -74,7 +74,7 @@ describe('Plugin APIs', () => {
       });
   });
 
-  it('should hide launcher button of plugin messenger, when `hideChannelButton` emits', () => {
+  it('should hide launcher button of plugin messenger, when `hideChannelButton` called', () => {
     cy.reload();
 
     cy.get('[data-ch-testid="launcher"]').should('be.visible');
@@ -84,7 +84,7 @@ describe('Plugin APIs', () => {
     cy.get('[data-ch-testid="launcher"]').should('not.be.visible');
   });
 
-  it('should show launcher button of plugin messenger, when `showChannelButton` emits', () => {
+  it('should show launcher button of plugin messenger, when `showChannelButton` called', () => {
     cy.get('[data-ch-testid="launcher"]').should('not.be.visible');
 
     cy.get('button[data-cy="action-button-showChannelButton"]').click();

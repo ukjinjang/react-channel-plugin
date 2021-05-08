@@ -10,6 +10,5 @@ Cypress.Commands.add('getChannelIOIframeBody', () => {
       // chaining more Cypress commands, like ".find(...)"
       // https://on.cypress.io/wrap
       .then(body => cy.wrap(body, { log: false }))
-      .find('div[id="main"]')
   );
 });
