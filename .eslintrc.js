@@ -7,9 +7,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
     'plugin:jsx-a11y/recommended',
-    'plugin:jest/all',
+    'plugin:cypress/recommended',
   ],
-  plugins: ['@typescript-eslint', 'react', 'jsdoc', 'jsx-a11y', 'jest'],
+  plugins: ['@typescript-eslint', 'react', 'jsdoc', 'jsx-a11y'],
   parserOptions: {
     project: ['tsconfig.eslint.json'],
     tsconfigRootDir: __dirname,
@@ -21,7 +21,7 @@ module.exports = {
   },
   env: {
     browser: true,
-    'jest/globals': true,
+    'cypress/globals': true,
   },
   rules: {
     // === plugin:@typescript-eslint/recommended ===
@@ -42,6 +42,9 @@ module.exports = {
     '@typescript-eslint/require-await': 'off',
     '@typescript-eslint/unbound-method': 'off',
 
+    // === plugin:cypress/recommended ===
+    'cypress/no-unnecessary-waiting': 'off',
+
     // === eslint ===
     camelcase: 'off',
     'comma-dangle': 'off',
@@ -49,19 +52,10 @@ module.exports = {
     'no-multiple-empty-lines': 'off',
     'no-unused-expressions': 'off',
     'no-use-before-define': 'off',
-
-    // === plugin:jest/all ===
-    'jest/no-conditional-expect': 'off',
-    'jest/no-hooks': ['error', { allow: ['beforeEach'] }],
-    'jest/prefer-called-with': 'off',
-    'jest/valid-expect-in-promise': 'off',
   },
   settings: {
     react: {
       version: 'detect',
-    },
-    jest: {
-      version: 26,
     },
   },
 };

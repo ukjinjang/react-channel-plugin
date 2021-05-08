@@ -425,10 +425,6 @@ type ChannelIOOnBootMethodArgs = ChannelIOBuilder<
  * Register a callback function when the chat list is shown.
  *
  * @link https://developers.channel.io/docs/web-channel-io#onshowmessenger
- *
- * @deprecated
- * `onShowMessenger` API won't work in all mobile environments
- * `onShowMessenger` API won't work in all mobile environments.
  */
 type ChannelIOOnShowMessengerMethodArgs = ChannelIOBuilder<
   'onShowMessenger',
@@ -457,10 +453,6 @@ type ChannelIOOnShowMethodArgs = ChannelIOBuilder<
  * Register a callback function when the chat list is hidden.
  *
  * @link https://developers.channel.io/docs/web-channel-io#onhidemessenger
- *
- * @deprecated
- * `onHideMessenger` API won't work in all mobile environments
- * `onHideMessenger` API won't work in all mobile environments.
  */
 type ChannelIOOnHideMessengerMethodArgs = ChannelIOBuilder<
   'onHideMessenger',
@@ -517,10 +509,6 @@ type ChannelIOOnChangeBadgeMethodArgs = ChannelIOBuilder<
  * Register a callback when a user success to create a chat.
  *
  * @link https://developers.channel.io/docs/web-channel-io#onchatcreated
- *
- * @deprecated
- * `onChatCreated` API won't work in all mobile environments
- * `onChatCreated` API won't work in all mobile environments
  */
 type ChannelIOOnChatCreatedMethodArgs = ChannelIOBuilder<
   'onChatCreated',
@@ -717,9 +705,10 @@ export interface ChannelIOUser {
  * an object contains key/value information.
  */
 export interface ChannelIOUserProfile extends Partial<Record<string, string>> {
-  mobileNumber?: string;
+  name?: string;
   email?: string;
   avatarUrl?: string;
+  mobileNumber?: string;
 }
 
 /**
