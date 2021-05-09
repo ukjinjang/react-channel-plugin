@@ -52,7 +52,7 @@ describe('Plugin APIs', () => {
       .then(tel1 => {
         cy.get('button[data-cy="action-button-updateUser"]').click();
 
-        cy.wait(500);
+        cy.wait(2000);
 
         cy.getChannelIOIframeBody()
           .find('input[type="tel"]')
@@ -62,7 +62,7 @@ describe('Plugin APIs', () => {
 
             cy.get('button[data-cy="action-button-updateUser"]').click();
 
-            cy.wait(500);
+            cy.wait(2000);
 
             cy.getChannelIOIframeBody()
               .find('input[type="tel"]')
