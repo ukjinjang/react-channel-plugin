@@ -16,7 +16,6 @@ executors:
   with-chrome-and-firefox:
     docker:
       - image: 'cypress/browsers:node12.19.0-chrome86-ff82'
-    resource_class: medium+
 
 commands:
   install-packages:
@@ -60,4 +59,3 @@ workflows:
           yarn: true
           start: yarn playground:start
           record: true
-          ci-build-id: ${CIRCLE_SHA1:0:8}
