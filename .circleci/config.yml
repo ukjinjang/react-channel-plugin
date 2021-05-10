@@ -57,5 +57,5 @@ workflows:
           executor: with-chrome-and-firefox
           wait-on: 'http://localhost:3000'
           yarn: true
-          start: yarn playground:start
+          start: yarn e2e:build-and-serve
           record: true
