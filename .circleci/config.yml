@@ -47,12 +47,6 @@ jobs:
           name: Lint
           command: yarn build
 
-  coverage:
-    <<: *container
-    steps:
-      - codecov/upload:
-          file: './coverage/clover.xml'
-
 workflows:
   build-and-test:
     jobs:
@@ -66,6 +60,10 @@ workflows:
           start: yarn e2e:build-and-serve
           wait-on: 'http://localhost:3000'
           record: true
-      - coverage:
-          requires:
-            - test-e2e
+          store_artifacts: true
+          post-steps:
+            - store_artifacts:
+                path: coverage
+            - codecov/upload:
+                file: 'coverage/clover.xml'
+                flags: integration
