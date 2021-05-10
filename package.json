@@ -4,10 +4,13 @@
   "description": "Channel Talk plugin wrapper for React",
   "author": "Uk-Jin Jang <doublestat@gmail.com>",
   "repository": "https://github.com/ukjinjang/react-channel-plugin",
-  "homepage": "https://channel.io",
+  "homepage": "https://ukjinjang.github.io/react-channel-plugin",
   "license": "MIT",
   "keywords": [
     "react",
+    "react-hooks",
+    "react-channel",
+    "react-channel-plugin",
     "channalio",
     "channal talk",
     "live chat",
@@ -28,6 +31,7 @@
     "e2e:build-and-serve": "run-s playground:build-e2e serve",
     "lint": "eslint --ext .ts --ext .tsx ./src",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "deploy:playground": "gh-pages -t -d build",
     "serve": "serve -l 3000 -s ./build"
   },
   "peerDependencies": {
@@ -69,6 +73,7 @@
     "eslint-plugin-jsdoc": "^33.0.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react-app": "^6.2.2",
+    "gh-pages": "^3.1.0",
     "husky": "^4.2.3",
     "istanbul-lib-coverage": "^3.0.0",
     "lint-staged": "^10.0.8",
