@@ -57,6 +57,13 @@ export const getCustomEvent = () => {
 };
 
 /**
+ * Check whether event method is valid or not.
+ */
+export function checkEventMethodValidity(method: ChannelIOEventMethod) {
+  return REACT_CHANNELIO_EVENT_METHODS.includes(method);
+}
+
+/**
  * Create dispatching function for ChannelIO event.
  */
 export const createChannelIOEventDispatcher = (
