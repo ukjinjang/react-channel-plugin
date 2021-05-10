@@ -5,6 +5,11 @@
 ![npm](https://img.shields.io/npm/v/react-channel-plugin)
 [![CircleCI](https://circleci.com/gh/ukjinjang/react-channel-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/ukjinjang/react-channel-plugin/?branch=master)
 [![codecov](https://codecov.io/gh/ukjinjang/react-channel-plugin/branch/master/graph/badge.svg?token=35WMEBXPPP)](https://codecov.io/gh/ukjinjang/react-channel-plugin)
+[![Known Vulnerabilities](https://snyk.io/test/github/ukjinjang/react-channel-plugin/badge.svg)](https://snyk.io/test/github/ukjinjang/react-channel-plugin)
+[![minzip](https://badgen.net/bundlephobia/minzip/react-channel-plugin)](https://bundlephobia.com/result?p=react-channel-plugin)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-channel-plugin)](https://bundlephobia.com/result?p=react-channel-plugin)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-channel-plugin)](https://bundlephobia.com/result?p=react-channel-plugin)
+![npm-download](https://img.shields.io/npm/dm/react-channel-plugin)
 ![license](https://img.shields.io/npm/l/react-channel-plugin)
 
 [Channel IO](https://channel.io) (Channel Talk) plugin wrapper for React.
@@ -224,6 +229,12 @@ ChannelIO('onChatCreated', () => {
   console.log('User chat created!');
 });
 ```
+
+## Playground
+
+Playground for react-channel-plugin.
+
+[https://ukjinjang.github.io/react-channel-plugin](https://ukjinjang.github.io/react-channel-plugin)
 
 ## Issues
 
