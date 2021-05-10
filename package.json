@@ -20,11 +20,12 @@
   "scripts": {
     "start": "run-s playground:start",
     "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build.es.json",
-    "playground:start": "cross-env BABEL_ENV=general snowpack dev --config ./snowpack.config.ts",
-    "playground:build": "cross-env BABEL_ENV=general snowpack build --config ./snowpack.config.ts && del \"build/_*\"",
+    "playground:start": "snowpack dev --config ./snowpack.config.ts",
+    "playground:build": "cross-env BABEL_ENV=production snowpack build --config ./snowpack.config.ts && del \"build/_*\"",
     "playground:build-e2e": "cross-env BABEL_ENV=e2e snowpack build --config ./snowpack.config.ts",
     "e2e": "run-s playground:build-e2e && start-test serve 3000 'cypress open'",
     "e2e:cli": "run-s playground:build-e2e && start-test serve 3000 'cypress run'",
+    "e2e:build-and-serve": "run-s playground:build-e2e serve",
     "lint": "eslint --ext .ts --ext .tsx ./src",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
     "serve": "serve -l 3000 -s ./build"
