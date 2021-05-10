@@ -1,10 +1,13 @@
 # configs
 .babelrc
+.browserslistrc
 .eslintignore
 .eslintrc.js
 .gitignore
+.nycrc.json
 .prettierignore
 .prettierrc
+snowpack.config.ts
 tsconfig.build.es.json
 tsconfig.build.json
 tsconfig.eslint.json
@@ -12,18 +15,18 @@ tsconfig.json
 
 # app sources
 src/
+playground/
 
 # test
+cypress.json
 /__mocks__
-/.storybook
-/jest
-/static
+/.nyc_output
+/coverage
+/cypress
 
 # compiled output
 /build
 /tmp
-/out-tsc
-/.rpt2_cache
 
 # dependencies
 /node_modules
@@ -36,25 +39,24 @@ yarn.lock
 
 # IDEs and editors
 /.idea
+/.vscode
 .editorconfig
 .project
 .classpath
 .c9/
 *.launch
-.settings/
+.settings
 *.sublime-workspace
-.vscode/*
 
 # misc
-.github
+/.circleci
+/.github
 /.sass-cache
 /connect.lock
-/coverage
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
 testem.log
-/typings
 *.log
 
 # System Files
