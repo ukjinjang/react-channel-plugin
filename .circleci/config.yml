@@ -52,10 +52,10 @@ workflows:
       - lint
       - build
       - cypress/run:
-          name: E2E
+          name: 'test-e2e'
           browser: chrome
           executor: with-chrome-and-firefox
-          wait-on: 'http://localhost:3000'
           yarn: true
           start: yarn e2e:build-and-serve
+          wait-on: 'http://localhost:3000'
           record: true
