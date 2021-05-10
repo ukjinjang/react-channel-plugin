@@ -45,7 +45,7 @@ describe('Plugin Events', () => {
     cy.getChannelIOIframeBody().contains('Delete chat').click();
   });
 
-  it('should change user profile of plugin messenger, when `updateUser` called', () => {
+  it('should emits `onProfileChanged` event, when user profile changed via plugin messenger', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
 
     cy.get('[data-ch-testid="launcher"]').click();
@@ -54,6 +54,8 @@ describe('Plugin Events', () => {
       .click();
 
     cy.getChannelIOIframeBody().contains('span', 'Edit').click();
+
+    cy.wait(2000);
 
     const phonenum = Math.floor(Math.random() * 90000000) + 10000000;
     cy.getChannelIOIframeBody()
