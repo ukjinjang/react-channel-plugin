@@ -3,5 +3,5 @@
   "all": true,
   "exclude": ["**/cypress/**", "snowpack.config.ts"],
   "extension": [".ts"],
-  "reporter": ["html"]
+  "reporter": ["html", "clover"]
 }
