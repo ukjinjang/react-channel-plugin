@@ -8,14 +8,19 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "moduleResolution": "node",
+    "isolatedModules": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "jsx": "react",
-    "allowJs": true,
+    "jsx": "react-jsx",
     "baseUrl": ".",
-    "typeRoots": ["node_modules/@types", "typings"]
-  }
+    "typeRoots": ["node_modules/@types", "typings"],
+    "paths": {
+      "react-channel-plugin": ["src"]
+    }
+  },
+  "include": ["src", "playground"]
 }

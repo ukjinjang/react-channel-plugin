@@ -1,12 +1,13 @@
-# React Channel Plugin
+<img src="./playground/public/favicon.png" alt="Logo" height="100px" style="margin-top: 20px;"/>
+
+# react-channel-plugin
 
 ![npm](https://img.shields.io/npm/v/react-channel-plugin)
-![Node.js Package](https://github.com/ukjinjang/react-channel-plugin/workflows/Node.js%20Package/badge.svg)
+[![CircleCI](https://circleci.com/gh/ukjinjang/react-channel-plugin/tree/master.svg?style=shield)](https://circleci.com/gh/ukjinjang/react-channel-plugin/?branch=master)
+[![codecov](https://codecov.io/gh/ukjinjang/react-channel-plugin/branch/master/graph/badge.svg?token=35WMEBXPPP)](https://codecov.io/gh/ukjinjang/react-channel-plugin)
 ![license](https://img.shields.io/npm/l/react-channel-plugin)
 
-[Channel Talk](https://channel.io) plugin wrapper for React.
-
-![screenshot.png](./.github/screenshot.png)
+[Channel IO](https://channel.io) (Channel Talk) plugin wrapper for React.
 
 ## Installation
 
@@ -18,176 +19,210 @@ $ yarn add react-channel-plugin
 
 ## Getting started
 
-Example code of react channel plugin. See [Options](#options) and [APIs](#apis) for more details.
+Example code of react channel plugin.
 
-```jsx
+```tsx
 import React from 'react';
-import { ChannelTalk } from 'react-channel-plugin';
-import config from './config';
+import {
+  ReactChannelIO,
+  useChannelIOApi,
+  useChannelIOEvent,
+} from 'react-channel-plugin';
+import { CHANNEL_ID_PLUGIN_KEY } from './config';
 
 const App = () => {
-  const user = useAppUser();
+  return (
+    <ReactChannelIO pluginKey={CHANNEL_ID_PLUGIN_KEY} locale="en" autoBoot>
+      <AppPage />
+    </ReactChannelIO>
+  );
+};
 
-  const onTalkError = React.useCallback(err => {
-    console.error('Error:', err);
-  }, []);
+const AppPage = () => {
+  const { showMessenger } = useChannelIOApi();
+
+  useChannelIOEvent('onShowMessenger', () => {
+    console.log('Messenger opened!');
+  });
+
+  return (
+    <button onClick={showMessenger}>
+      <span>Open</span>
+    </button>
+  );
+};
+```
+
+## API
+
+React provider and hooks for Channel IO API.
+
+### ReactChannelIO
+
+`<ReactChannelIO />` is [React Context provider](https://reactjs.org/docs/context.html#contextprovider), which will provides context (APIs and event listeners) to react-channel-plugin hooks. Also it receives Channel IO plugin options and initialize Channel IO instance. Make sure place `<ReactChannelIO />` upper than hooks used at your app.
+
+#### Props
+
+```tsx
+/**
+ * Please refer ChannelIO offical docs.
+ * - ref: https://developers.channel.io/docs/web-boot-option
+ */
+type ChannelIOBootOption = {};
+
+interface ReactChannelIOProps extends ChannelIOBootOption {
+  /**
+   * Indicates whether ChannelIO should be automatically booted or not.
+   * If `true` no need to call `boot` manually.
+   *
+   * - Default: `false`
+   */
+  autoBoot?: boolean;
+
+  /**
+   * Timeout before call `boot`.
+   * Only work when `autoBoot` set as `true`.
+   *
+   * - Default: `1000`
+   */
+  autoBootTimeout?: number;
+
+  /**
+   * Emitted when booted.
+   */
+  onBoot?: (err?: any, user?: ChannelIOUser) => void;
+}
+```
+
+#### Example
+
+```tsx
+import React from 'react';
+import { ReactChannelIO } from 'react-channel-plugin';
+import { CHANNEL_ID_PLUGIN_KEY } from './config';
+
+const App = () => {
+  const userProfile = { ... };
+
+  return (
+    <ReactChannelIO
+      pluginKey={CHANNEL_ID_PLUGIN_KEY}
+      hideChannelButtonOnBoot={true}
+      locale="en"
+      profile={userProfile}
+      autoBoot
+      autoBootTimeout={2000}
+    >
+      <span>Child component of the ReactChannelIO</span>
+    </ReactChannelIO>
+  );
+};
+```
+
+### useChannelIOApi
+
+Provides API of Channel IO as React hook. Please refer [official docs](https://developers.channel.io/docs/web-channel-io) to see detail description of each API.
+
+- `boot`
+- `shutdown`
+- `showMessenger`
+- ~~`show`~~ (will be deprecated)
+- `hideMessenger`
+- ~~`hide`~~ (will be deprecated)
+- ~~`lounge`~~ (will be deprecated)
+- `openChat`
+- `track`
+- `clearCallbacks`
+- `updateUser`
+- `addTags`
+- `removeTags`
+- `setPage`
+- `resetPage`
+- `showChannelButton`
+- `hideChannelButton`
+
+#### Example
+
+```tsx
+import { useChannelIOApi } from 'react-channel-plugin';
+
+const AppPage = () => {
+  const { showMessenger, updateUser } = useChannelIOApi();
 
   return (
     <>
-      <button onClick={() => ChannelTalk.show()}>
+      <button onClick={showMessenger}>
         <span>Open</span>
       </button>
 
-      <ChannelTalk
-        pluginKey={config.channelTalk.key}
-        locale="en"
-        userId={user.id}
-        profile={user.profile}
-        hideDefaultLauncher
-        onError={onTalkError}
-      />
+      <button
+        onClick={() => {
+          updateUser({
+            profile: {
+              name: 'John Doe',
+              email: 'john.doe@example.com',
+              mobileNumber: '+821012345678',
+            },
+          });
+        }}
+      >
+        <span>Update user</span>
+      </button>
     </>
   );
 };
 ```
 
-## Options
+### useChannelIOEvent
 
-These are available configuration options for react Channel Talk.
+Provides event callbacks from Channel IO as React hook. Provide callback method name as first parameter of hook method. Please refer [official docs](https://developers.channel.io/docs/web-channel-io) to see detail description of each callback.
+
+- ~~`onBoot`~~ (will be deprecated)
+- `onShowMessenger`
+- ~~`onShow`~~ (will be deprecated)
+- `onHideMessenger`
+- ~~`onHide`~~ (will be deprecated)
+- `onBadgeChanged`
+- ~~`onChangeBadge`~~ (will be deprecated)
+- `onChatCreated`
+- ~~`onCreateChat`~~ (will be deprecated)
+- `onProfileChanged`
+- ~~`onChangeProfile`~~ (will be deprecated)
+- `onUrlClicked`
+- ~~`onClickRedirect`~~ (will be deprecated)
+
+#### Example
+
+```tsx
+import { useChannelIOApi } from 'react-channel-plugin';
+
+const AppPage = () => {
+  useChannelIOEvent('onShowMessenger', () => {
+    console.log('Messenger opened!');
+  });
+
+  useChannelIOEvent('onChangeProfile', user => {
+    console.log('User updated:', user);
+  });
+
+  return null;
+};
+```
+
+## Pure APIs
+
+You can use Channel IO API wrapper without using React. Usages are same with [official API](https://developers.channel.io/docs/web-channel-io), but typed via TypeScript.
+
+**WARNING: DO NOT USE with `<ReactChannelIO />`, because there is change to overrides attached callbacks of react-channel-plugin and which will cause malfunctioning.**
 
 ```ts
-interface ChannelTalkProps extends ChannelTalkPlugInSettings {
-  /** Timeout before init Channel Talk plugin. */
-  timeout?: number;
+import { ChannelIO } from 'react-channel-plugin';
 
-  /** On init. */
-  onBoot?: (profile: ChannelTalkGuestMeta) => void;
+ChannelIO('boot');
 
-  /** On error occurred. */
-  onError?: () => void;
-
-  /** On chatbox show. */
-  onShow?: () => void;
-
-  /** On chatbox hide. */
-  onHide?: () => void;
-
-  /** On `unreadCount` is changed. */
-  onChangeBadge?: (unreadCount: number) => void;
-
-  /** On user success to create a chat. */
-  onCreateChat?: () => void;
-
-  /**
-   * On user success to change their profile in the settings page and chats.
-   * `profile` is an object of the user's profile.
-   */
-  onChangeProfile?: (profile: ChannelTalkUserProfile) => void;
-
-  /**
-   * On user clicks redirect images or buttons.
-   * We pass the redirect url to a function.
-   */
-  onClickRedirect?: (url: string) => void;
-}
-
-interface ChannelTalkPlugInSettings {
-  /** Channel plugin's key */
-  pluginKey: string;
-
-  /** User id. */
-  userId?: string | number;
-
-  /**
-   * Css selector for custom button.
-   * Use it with `hideDefaultLauncher` set to `true`.
-   */
-  customLauncherSelector?: string;
-
-  /** Flag to decide whether to hide the default button. */
-  hideDefaultLauncher?: boolean;
-
-  /** Set content on the top of messages on the chat view. */
-  chatHeaderContent?: string;
-
-  /**
-   * Decide whether it shows a navigation bar on the chat view.
-   * Default value is `false`.
-   */
-  hideNavigationBarOnChatView?: boolean;
-
-  /**
-   * Flag to decide whether to track default events or not.
-   * Default value is `true` */
-  enabledTrackDefaultEvent?: boolean;
-
-  /**
-   * Flag to decide whether to track UTM source and referrer or not.
-   * Default value is `true`
-   */
-  enabledUtmSourceTrack?: boolean;
-
-  /**
-   * Flag to decide whether to enter a chat room when you click the button.
-   * Default value is `false`
-   */
-  openChatDirectlyAsPossible?: boolean;
-
-  /** Custom plugin button's z-index. */
-  zIndex?: number;
-
-  /**
-   * Set default language.
-   * Only (en, ko, ja) available.
-   */
-  locale?: ChannelTalkLocale;
-
-  /**
-   * Profile object contains user information.
-   * If this property is present, it will be used when boot is get called
-   */
-  profile?: ChannelTalkUserProfile;
-}
-```
-
-## APIs
-
-##### ChannelTalk.show()
-
-Open Channel Talk messenger.
-
-##### ChannelTalk.openChat(chatId: string | number)
-
-Open chatroom directly at Channel Talk messenger.
-
-##### ChannelTalk.lounge()
-
-Go to the lounge view.
-
-##### ChannelTalk.hide()
-
-Close Channel Talk messenger.
-
-##### ChannelTalk.track(eventName: string, eventProperty: any)
-
-Track an event for Channel Talk.
-
-##### ChannelTalk.clearCallbacks()
-
-Clear all registered callbacks of Channel Talk.
-
-## Development
-
-#### Run demo with storybook
-
-```bash
-$ yarn storybook
-```
-
-#### Build to commonjs and ES module
-
-```bash
-$ yarn start
+ChannelIO('onChatCreated', () => {
+  console.log('User chat created!');
+});
 ```
 
 ## Issues

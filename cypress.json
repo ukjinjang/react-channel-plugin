@@ -1,0 +1,6 @@
+{
+  "nodeVersion": "system",
+  "baseUrl": "http://localhost:3000",
+  "testFiles": "**/*.spec.ts",
+  "ignoreTestFiles": "_*.ts"
+}
