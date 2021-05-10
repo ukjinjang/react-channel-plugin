@@ -28,6 +28,19 @@ module.exports = {
         },
       },
     ],
+    process.env.DEPLOY === 'true'
+      ? [
+          'snowpack-plugin-replace',
+          {
+            list: [
+              {
+                from: '/favicon.png',
+                to: '/react-channel-plugin/favicon.png',
+              },
+            ],
+          },
+        ]
+      : null,
   ].filter(Boolean),
   routes: [
     /* Enable an SPA Fallback in development: */
@@ -46,5 +59,6 @@ module.exports = {
   },
   buildOptions: {
     out: 'build',
+    baseUrl: process.env.DEPLOY === 'true' ? '/react-channel-plugin' : '/',
   },
 };
