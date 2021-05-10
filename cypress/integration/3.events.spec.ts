@@ -55,7 +55,7 @@ describe('Plugin Events', () => {
 
     cy.getChannelIOIframeBody().contains('span', 'Edit').click();
 
-    const phonenum = Math.round(Math.random() * 100000000);
+    const phonenum = Math.floor(Math.random() * 90000000) + 10000000;
     cy.getChannelIOIframeBody()
       .find('input[type="tel"]')
       .clear()

@@ -140,7 +140,9 @@ const App: React.FC = () => {
               profile: {
                 name: Math.random().toString(36).substr(2),
                 email: `${Math.random().toString(36).substr(2)}@channel.io`,
-                mobileNumber: `+8210${Math.round(Math.random() * 100000000)}`,
+                mobileNumber: `+8210${
+                  Math.floor(Math.random() * 90000000) + 10000000
+                }`,
               },
             })
           }
