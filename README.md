@@ -93,7 +93,14 @@ interface ReactChannelIOProps extends ChannelIOBootOption {
   autoBootTimeout?: number;
 
   /**
-   * Emitted when booted.
+   * Need to reboot channel plugin when boot option changed?
+   *
+   * - Default: `true`
+   */
+  rebootOnOptionChanged?: boolean;
+
+  /**
+   * Emitted when channel plugin booted.
    */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;
 }
