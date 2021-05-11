@@ -17,8 +17,17 @@ const StyledMainContent = styled.div`
   margin: 0 1rem;
 `;
 
+const StyledCustomLauncherAnchor = styled.a`
+  color: #5e56f0;
+  text-decoration: underline;
+  cursor: pointer;
+`;
+
 const App: React.FC = () => {
   const [isBooted, setBooted] = React.useState(false);
+  const [isCustomLauncherVisible, setCustomLauncherVisible] = React.useState(
+    false
+  );
 
   const {
     boot,
@@ -42,6 +51,14 @@ const App: React.FC = () => {
   useChannelIOEvent('onBoot', () => {
     setBooted(true);
   });
+
+  React.useEffect(() => {
+    if (isBooted) {
+      setTimeout(() => setCustomLauncherVisible(true), 2000);
+    } else {
+      setCustomLauncherVisible(false);
+    }
+  }, [isBooted]);
 
   return (
     <StyledMain>
@@ -195,6 +212,21 @@ const App: React.FC = () => {
           isActionButtonDisabled={!isBooted}
           onActionButtonClick={() => hideChannelButton()}
         />
+
+        <FeatureSection
+          title="bootOption.customLauncherSelector"
+          description="Css selector for custom button. Use it with hideChannelButtonOnBoot set to true."
+          link="https://developers.channel.io/docs/web-channel-io#hidechannelbutton"
+        >
+          {isCustomLauncherVisible ? (
+            // eslint-disable-next-line jsx-a11y/anchor-is-valid
+            <StyledCustomLauncherAnchor className="playground-launcher">
+              Custom Launcher
+            </StyledCustomLauncherAnchor>
+          ) : (
+            <span>Custom launcher is shown after plugin booted.</span>
+          )}
+        </FeatureSection>
       </StyledMainContent>
     </StyledMain>
   );
