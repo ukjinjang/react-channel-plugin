@@ -616,10 +616,6 @@ export interface ChannelIOBootOption {
   customLauncherSelector?: string;
   /**
    * Flag to decide whether to hide the default button.
-   *
-   * @deprecated
-   * `hideDefaultLauncher` will be supported until 2022. After that time it will be deprecated.
-   * Recommend to use `hideChannelButtonOnBoot` instead.
    */
   hideChannelButtonOnBoot?: boolean;
   /**
