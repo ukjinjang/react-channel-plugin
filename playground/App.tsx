@@ -220,7 +220,10 @@ const App: React.FC = () => {
         >
           {isCustomLauncherVisible ? (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <StyledCustomLauncherAnchor className="playground-launcher">
+            <StyledCustomLauncherAnchor
+              className="playground-launcher"
+              data-cy="custom-test-launcher"
+            >
               Custom Launcher
             </StyledCustomLauncherAnchor>
           ) : (
