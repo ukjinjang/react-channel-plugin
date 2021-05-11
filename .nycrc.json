@@ -1,7 +1,7 @@
 {
   "extends": "@istanbuljs/nyc-config-typescript",
   "all": true,
-  "exclude": ["**/cypress/**", "snowpack.config.ts"],
+  "exclude": ["**/cypress/**", "**/playground/**", "snowpack.config.ts"],
   "extension": [".ts"],
   "reporter": ["html", "clover"]
 }

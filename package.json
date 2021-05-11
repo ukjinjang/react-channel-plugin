@@ -26,19 +26,21 @@
     "playground:start": "snowpack dev --config ./snowpack.config.ts",
     "playground:build": "cross-env BABEL_ENV=production DEPLOY=true snowpack build --config ./snowpack.config.ts && del \"build/_*\" && touch build/.nojekyll",
     "playground:build-e2e": "cross-env BABEL_ENV=e2e snowpack build --config ./snowpack.config.ts",
-    "e2e": "run-s playground:build-e2e && start-test serve 3000 'cypress open'",
-    "e2e:cli": "run-s playground:build-e2e && start-test serve 3000 'cypress run'",
+    "e2e": "run-s playground:build-e2e && start-test serve 8090 'cypress open'",
+    "e2e:cli": "run-s playground:build-e2e && start-test serve 8090 'cypress run'",
     "e2e:build-and-serve": "run-s playground:build-e2e serve",
     "lint": "eslint --ext .ts --ext .tsx ./src",
     "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
     "deploy:playground": "gh-pages -t -m \"update gh-pages [ci skip]\" -d build",
-    "serve": "serve -l 3000 -s ./build"
+    "serve": "serve -l 8090 -s ./build"
   },
   "peerDependencies": {
+    "fast-deep-equal": ">=3.0.0",
     "react": ">=16.8.0",
     "tslib": ">=2.2.0"
   },
   "dependencies": {
+    "fast-deep-equal": "3.1.3",
     "react": "^16.8.0",
     "tslib": "^2.2.0"
   },

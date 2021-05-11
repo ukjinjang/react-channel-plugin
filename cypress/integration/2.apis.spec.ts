@@ -91,4 +91,16 @@ describe('Plugin APIs', () => {
 
     cy.get('[data-ch-testid="launcher"]').should('be.visible');
   });
+
+  it('should show plugin messenger, when custom launcher clicked which rendered after plugin booted', () => {
+    cy.reload();
+
+    cy.wait(2000);
+
+    cy.get('[data-cy="custom-test-launcher"]').click();
+
+    cy.getChannelIOIframeBody()
+      .find('[data-ch-testid="lounge"]')
+      .should('contain.text', 'Channel.io');
+  });
 });

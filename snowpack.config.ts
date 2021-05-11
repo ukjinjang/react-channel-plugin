@@ -50,12 +50,16 @@ module.exports = {
     'react-channel-plugin': './src',
   },
   packageOptions: {
-    knownEntrypoints: ['github-buttons', 'react/jsx-runtime'],
+    knownEntrypoints: [
+      'fast-deep-equal',
+      'github-buttons',
+      'react/jsx-runtime',
+    ],
     polyfillNode: true,
   },
   devOptions: {
     open: 'none',
-    port: 3000,
+    port: 8090,
   },
   buildOptions: {
     out: 'build',

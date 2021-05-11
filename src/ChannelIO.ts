@@ -616,10 +616,6 @@ export interface ChannelIOBootOption {
   customLauncherSelector?: string;
   /**
    * Flag to decide whether to hide the default button.
-   *
-   * @deprecated
-   * `hideDefaultLauncher` will be supported until 2022. After that time it will be deprecated.
-   * Recommend to use `hideChannelButtonOnBoot` instead.
    */
   hideChannelButtonOnBoot?: boolean;
   /**
@@ -657,8 +653,9 @@ export interface ChannelIOBootOption {
   /**
    * Profile object contains user information.
    * If this property is present, it will be used when boot is get called
+   * Set `null` to reset.
    */
-  profile?: ChannelIOUserProfile;
+  profile?: ChannelIOUserProfile | null;
   /**
    * Set chat ux.
    * Only (newTab, iframe) available.
