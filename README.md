@@ -100,6 +100,15 @@ interface ReactChannelIOProps extends ChannelIOBootOption {
   rebootOnOptionChanged?: boolean;
 
   /**
+   * Since ChannelIO does not support `customLauncherSelector` after plugin booted,
+   * add onClick event listener at element which has `customLauncherSelector`
+   * whenever DOM tree mutated. (observed by `MutationObserver`)
+   *
+   * - Default: `true`
+   */
+  useCustomLauncherSelectorTweak?: boolean;
+
+  /**
    * Emitted when channel plugin booted.
    */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;
