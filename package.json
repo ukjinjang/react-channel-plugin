@@ -23,6 +23,7 @@
   "scripts": {
     "start": "run-s playground:start",
     "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build.es.json",
+    "postbuild": "downlevel-dts ./es/ChannelIO.d.ts ./es/ChannelIO.d.ts --to=3.8",
     "playground:start": "snowpack dev --config ./snowpack.config.ts",
     "playground:build": "cross-env BABEL_ENV=production DEPLOY=true snowpack build --config ./snowpack.config.ts && del \"build/_*\" && touch build/.nojekyll",
     "playground:build-e2e": "cross-env BABEL_ENV=e2e snowpack build --config ./snowpack.config.ts",
@@ -68,6 +69,7 @@
     "cross-env": "^7.0.3",
     "cypress": "^7.2.0",
     "del-cli": "^3.0.1",
+    "downlevel-dts": "^0.7.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
