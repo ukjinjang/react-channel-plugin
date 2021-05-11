@@ -55,7 +55,7 @@ module.exports = {
   },
   devOptions: {
     open: 'none',
-    port: 3000,
+    port: 8090,
   },
   buildOptions: {
     out: 'build',

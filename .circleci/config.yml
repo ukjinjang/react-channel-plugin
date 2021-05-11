@@ -58,7 +58,7 @@ workflows:
           executor: with-chrome-and-firefox
           yarn: true
           start: yarn e2e:build-and-serve
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://localhost:8090'
           record: true
           store_artifacts: true
           post-steps:
