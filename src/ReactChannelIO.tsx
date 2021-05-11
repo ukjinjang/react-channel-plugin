@@ -5,7 +5,12 @@ import {
   createChannelIOEventDispatcher,
   REACT_CHANNELIO_EVENT_METHODS,
 } from './events';
-import { scriptInjector, useCallbackProp, warnLogger } from './utils';
+import {
+  scriptInjector,
+  useCallbackProp,
+  useDeepEffect,
+  warnLogger,
+} from './utils';
 import type {
   ChannelIOApiShutdownMethodArgs,
   ChannelIOBootOption,
@@ -24,7 +29,13 @@ export interface ReactChannelIOProps extends ChannelIOBootOption {
    * Only work when `autoBoot` set as `true`.
    */
   autoBootTimeout?: number;
-  /** Emitted when booted. */
+  /**
+   * Need to reboot channel plugin when boot option changed?
+   */
+  rebootOnOptionChanged?: boolean;
+  /**
+   * Emitted when channel plugin booted.
+   */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;
 }
 
@@ -35,6 +46,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   children,
   autoBoot = false,
   autoBootTimeout = 1000,
+  rebootOnOptionChanged = true,
   onBoot,
   ...channelIOBootOption
 }) => {
@@ -68,8 +80,6 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
    * Add event callbacks that dispatching internal events.
    */
   const addPluginEventCallbacks = () => {
-    ChannelIO('clearCallbacks');
-
     REACT_CHANNELIO_EVENT_METHODS.forEach(method => {
       ChannelIO(method, createChannelIOEventDispatcher(method));
     });
@@ -142,6 +152,15 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  //
+  // Re-boot channel plugin when boot option changed.
+  //
+  useDeepEffect(() => {
+    if (isBooted && rebootOnOptionChanged) {
+      void boot();
+    }
+  }, [channelIOBootOption]);
 
   return (
     <ReactChannelIOContext.Provider value={{ isBooted, boot, shutdown }}>
