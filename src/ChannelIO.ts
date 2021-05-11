@@ -653,8 +653,9 @@ export interface ChannelIOBootOption {
   /**
    * Profile object contains user information.
    * If this property is present, it will be used when boot is get called
+   * Set `null` to reset.
    */
-  profile?: ChannelIOUserProfile;
+  profile?: ChannelIOUserProfile | null;
   /**
    * Set chat ux.
    * Only (newTab, iframe) available.

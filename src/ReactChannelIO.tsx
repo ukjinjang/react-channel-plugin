@@ -124,6 +124,15 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
             return;
           }
 
+          // Reset profile when `profile` set as `null`.
+          if (optionRef.current.profile === null) {
+            ChannelIO('updateUser', { profile: null }, err => {
+              if (err) {
+                warnLogger('Fail to reset user information.');
+              }
+            });
+          }
+
           setBooted(true);
           resolve(user as ChannelIOUser);
         });
