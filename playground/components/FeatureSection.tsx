@@ -8,7 +8,7 @@ interface StyledSectionProps {
   link: string;
   deprecated?: boolean;
   isActionButtonDisabled?: boolean;
-  onActionButtonClick: () => void;
+  onActionButtonClick?: () => void;
 }
 
 const StyledSection = styled.section`
@@ -54,6 +54,7 @@ const StyledSectionActionButton = styled(Button)`
 `;
 
 const FeatureSection: React.FC<StyledSectionProps> = ({
+  children,
   title,
   description,
   link,
@@ -74,13 +75,16 @@ const FeatureSection: React.FC<StyledSectionProps> = ({
       </StyledSectionInfo>
 
       <StyledSectionAction>
-        <StyledSectionActionButton
-          data-cy={`action-button-${title}`}
-          disabled={isActionButtonDisabled}
-          onClick={onActionButtonClick}
-        >
-          {title}
-        </StyledSectionActionButton>
+        {children}
+        {onActionButtonClick ? (
+          <StyledSectionActionButton
+            data-cy={`action-button-${title}`}
+            disabled={isActionButtonDisabled}
+            onClick={onActionButtonClick}
+          >
+            {title}
+          </StyledSectionActionButton>
+        ) : null}
       </StyledSectionAction>
     </StyledSection>
   );

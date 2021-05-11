@@ -34,6 +34,12 @@ export interface ReactChannelIOProps extends ChannelIOBootOption {
    */
   rebootOnOptionChanged?: boolean;
   /**
+   * Since ChannelIO does not support `customLauncherSelector` after plugin booted,
+   * add onClick event listener at element which has `customLauncherSelector`
+   * whenever DOM tree mutated. (observed by `MutationObserver`)
+   */
+  useCustomLauncherSelectorTweak?: boolean;
+  /**
    * Emitted when channel plugin booted.
    */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;
@@ -41,12 +47,17 @@ export interface ReactChannelIOProps extends ChannelIOBootOption {
 
 /** URL of ChannelIO SDK. */
 const PLUGIN_URL = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+/** Attribute name of custom launcher. */
+const LAUNCHER_ATTR_NAME = 'data-channel-plugin';
+/** Attribute value of custom launcher. */
+const LAUNCHER_ATTR_VAL = 'launcher';
 
 export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   children,
   autoBoot = false,
   autoBootTimeout = 1000,
   rebootOnOptionChanged = true,
+  useCustomLauncherSelectorTweak = true,
   onBoot,
   ...channelIOBootOption
 }) => {
@@ -161,6 +172,60 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
       void boot();
     }
   }, [channelIOBootOption]);
+
+  //
+  // Since ChannelIO does not support `customLauncherSelector` after plugin booted,
+  // add onClick event listener at element which has `customLauncherSelector`
+  // whenever DOM tree mutated. (observed by `MutationObserver`)
+  //
+  useEffect(() => {
+    const customLauncherSelector = channelIOBootOption.customLauncherSelector;
+    if (!useCustomLauncherSelectorTweak || !customLauncherSelector) {
+      return;
+    }
+
+    const observer = new MutationObserver(mutationsList => {
+      mutationsList
+        .filter(mutation => mutation.type === 'childList')
+        .filter(mutation => mutation.target instanceof HTMLElement)
+        .map(mutation =>
+          (mutation.target as HTMLElement).querySelectorAll(
+            customLauncherSelector
+          )
+        )
+        .forEach(customLauncherEls =>
+          Array.from(customLauncherEls)
+            .filter(customLauncherEl => customLauncherEl instanceof HTMLElement)
+            .forEach(customLauncherEl => {
+              const el = customLauncherEl as HTMLElement;
+              if (el.getAttribute(LAUNCHER_ATTR_NAME) === LAUNCHER_ATTR_VAL) {
+                return;
+              }
+
+              el.setAttribute(LAUNCHER_ATTR_NAME, LAUNCHER_ATTR_VAL);
+              el.addEventListener(
+                'click',
+                () => ChannelIO('showMessenger'),
+                false
+              );
+            })
+        );
+    });
+
+    observer.observe(document.body, {
+      attributes: false,
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  });
+
+  //
+  //
+  //
 
   return (
     <ReactChannelIOContext.Provider value={{ isBooted, boot, shutdown }}>

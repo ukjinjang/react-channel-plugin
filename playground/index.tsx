@@ -10,7 +10,11 @@ const autoBoot =
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReactChannelIO pluginKey={CHANNEL_IO_PLUGIN_KEY} autoBoot={autoBoot}>
+    <ReactChannelIO
+      pluginKey={CHANNEL_IO_PLUGIN_KEY}
+      autoBoot={autoBoot}
+      customLauncherSelector=".playground-launcher"
+    >
       <App />
     </ReactChannelIO>
   </React.StrictMode>,
