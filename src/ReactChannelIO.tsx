@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { ChannelIO } from './ChannelIO';
 import { ReactChannelIOContext } from './context';
 import {
@@ -63,6 +63,8 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
 }) => {
   const onBootRef = useCallbackProp(onBoot);
 
+  const optionRef = useRef(channelIOBootOption);
+
   const [isBooted, setBooted] = React.useState(false);
 
   /**
@@ -110,7 +112,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
       try {
         addPluginEventCallbacks();
 
-        ChannelIO('boot', channelIOBootOption, (err, user) => {
+        ChannelIO('boot', optionRef.current, (err, user) => {
           if (typeof onBootRef.current === 'function') {
             onBootRef.current(err, user);
           }
@@ -122,6 +124,15 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
             return;
           }
 
+          // Reset profile when `profile` set as `null`.
+          if (optionRef.current.profile === null) {
+            ChannelIO('updateUser', { profile: null }, err => {
+              if (err) {
+                warnLogger('Fail to reset user information.');
+              }
+            });
+          }
+
           setBooted(true);
           resolve(user as ChannelIOUser);
         });
@@ -129,7 +140,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
         reject(err);
       }
     });
-  }, [channelIOBootOption, onBootRef]);
+  }, [onBootRef]);
 
   /**
    * ### `shutdown`
@@ -163,6 +174,13 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  //
+  //
+  //
+  useEffect(() => {
+    optionRef.current = channelIOBootOption;
+  }, [channelIOBootOption]);
 
   //
   // Re-boot channel plugin when boot option changed.
