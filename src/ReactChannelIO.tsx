@@ -15,6 +15,7 @@ import type {
   ChannelIOApiShutdownMethodArgs,
   ChannelIOBootOption,
   ChannelIOUser,
+  ChannelIOUpdateUserData,
 } from './ChannelIO';
 
 /** Props of ReactChannelIO. */
@@ -124,14 +125,34 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
             return;
           }
 
+          //
+          // === update user ===
+          // Need to update user since channel plugin has limitation
+          //
+
+          const updateUserData: ChannelIOUpdateUserData = {};
+
+          // Change user language, when user language of plugin different with option one.
+          // User language won't change, if the user already created.
+          // - ref: https://developers.channel.io/docs/mobile-models#bootconfig
+          if (user?.language !== optionRef.current.language) {
+            updateUserData.language = optionRef.current.language;
+          }
+
           // Reset profile when `profile` set as `null`.
           if (optionRef.current.profile === null) {
-            ChannelIO('updateUser', { profile: null }, err => {
-              if (err) {
-                warnLogger('Fail to reset user information of plugin.');
-              }
-            });
+            updateUserData.profile = null;
           }
+
+          ChannelIO('updateUser', updateUserData, err => {
+            if (err) {
+              warnLogger('Fail to reset user information of plugin.');
+            }
+          });
+
+          //
+          // === update user end ===
+          //
 
           setBooted(true);
           resolve(user as ChannelIOUser);

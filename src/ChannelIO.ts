@@ -626,10 +626,6 @@ export interface ChannelIOBootOption {
    * Set default language.
    * Only (en, ko, ja) available.
    * It does not change for users who have already been created.
-   *
-   * @deprecated
-   * `locale` will be supported until 2022. After that time it will be deprecated.
-   * Recommend to use `language` instead.
    */
   language?: ChannelIOLanguage;
   /**
@@ -686,16 +682,44 @@ export interface ChannelIOBootOption {
  * @link https://developers.channel.io/docs/web-user-object
  */
 export interface ChannelIOUser {
-  /** a user id used inside channel */
   id?: string;
-  /** a user name */
-  name?: string;
-  /** member (user) identification id used by your company */
+  channelId: string;
   memberId?: string;
-  /** a user's mobile number */
+  veilId: string;
+  name?: string;
+  profile?: ChannelIOUserProfile;
+  tags?: string[];
+  alert: number;
+  unread: number;
+  blocked: boolean;
+  unsubscribed: boolean;
+  hasChat?: true;
+  hasPushToken?: false;
+  language: ChannelIOLanguage;
+  country: string;
+  city: string;
+  latitude: number;
+  longitude: number;
+  web: {
+    device: string;
+    os: string;
+    osName: string;
+    browser: string;
+    browserName: string;
+    sessionsCount: number;
+    lastSeenAt: number;
+  };
+  sessionsCount: number;
+  lastSeenAt: number;
+  createdAt: number;
+  updatedAt: number;
+  version: number;
+  managedKey?: number;
+  member?: boolean;
+  email?: string;
+  avatarUrl: string;
   mobileNumber?: string;
-  /** an object contains key/value information */
-  profile: ChannelIOUserProfile;
+  systemLanguage: ChannelIOLanguage | string;
 }
 
 /**
