@@ -118,7 +118,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
           }
 
           if (err) {
-            warnLogger('Error occurred while initalize ChannelIO', err);
+            warnLogger('Error occurred while boot plugin.', err);
             setBooted(false);
             reject(err);
             return;
@@ -128,7 +128,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
           if (optionRef.current.profile === null) {
             ChannelIO('updateUser', { profile: null }, err => {
               if (err) {
-                warnLogger('Fail to reset user information.');
+                warnLogger('Fail to reset user information of plugin.');
               }
             });
           }
@@ -160,12 +160,19 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   //
   useEffect(() => {
     void (async () => {
-      createPluginQueue();
-      await scriptInjector(PLUGIN_URL);
+      try {
+        createPluginQueue();
+        await scriptInjector(PLUGIN_URL);
 
-      if (autoBoot) {
-        await new Promise(r => setTimeout(r, autoBootTimeout));
-        await boot();
+        if (autoBoot) {
+          await new Promise(r => setTimeout(r, autoBootTimeout));
+          await boot().catch(() => void 0);
+        }
+      } catch (err) {
+        warnLogger(
+          'Error occurred at plugin boot processing on first mount.',
+          err
+        );
       }
     })();
 
@@ -187,7 +194,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   //
   useDeepEffect(() => {
     if (isBooted && rebootOnOptionChanged) {
-      void boot();
+      void boot().catch(() => void 0);
     }
   }, [channelIOBootOption]);
 
