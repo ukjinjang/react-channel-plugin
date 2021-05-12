@@ -14,6 +14,8 @@ ReactDOM.render(
       pluginKey={CHANNEL_IO_PLUGIN_KEY}
       autoBoot={autoBoot}
       customLauncherSelector=".playground-launcher"
+      language="en"
+      verbose
     >
       <App />
     </ReactChannelIO>
