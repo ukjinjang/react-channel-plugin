@@ -1,6 +1,6 @@
 {
   "name": "react-channel-plugin",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Channel IO plugin wrapper for React",
   "author": "Uk-Jin Jang <doublestat@gmail.com>",
   "repository": "https://github.com/ukjinjang/react-channel-plugin",
