@@ -6,6 +6,7 @@ import {
   REACT_CHANNELIO_EVENT_METHODS,
 } from './events';
 import {
+  debugLogger,
   scriptInjector,
   useCallbackProp,
   useDeepEffect,
@@ -41,6 +42,11 @@ export interface ReactChannelIOProps extends ChannelIOBootOption {
    */
   useCustomLauncherSelectorTweak?: boolean;
   /**
+   * Print debug logs via `console.debug`.
+   * Set `false` when use plugin at production env.
+   */
+  verbose?: boolean;
+  /**
    * Emitted when channel plugin booted.
    */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;
@@ -59,6 +65,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   autoBootTimeout = 1000,
   rebootOnOptionChanged = true,
   useCustomLauncherSelectorTweak = true,
+  verbose = false,
   onBoot,
   ...channelIOBootOption
 }) => {
@@ -76,6 +83,8 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
     if (window.ChannelIO) {
       return;
     }
+
+    debugLogger(verbose, 'Creating plugin queue...');
 
     const ch = function (...args: any[]) {
       ch.c(args);
@@ -113,6 +122,9 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
       try {
         addPluginEventCallbacks();
 
+        debugLogger(verbose, 'Booting plugin...');
+        debugLogger(verbose, 'boot options =>', optionRef.current);
+
         ChannelIO('boot', optionRef.current, (err, user) => {
           if (typeof onBootRef.current === 'function') {
             onBootRef.current(err, user);
@@ -144,15 +156,20 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
             updateUserData.profile = null;
           }
 
-          ChannelIO('updateUser', updateUserData, err => {
+          ChannelIO('updateUser', updateUserData, (err, updatedUser) => {
             if (err) {
               warnLogger('Fail to reset user information of plugin.');
+              return;
             }
+
+            debugLogger(verbose, 'User updated after booting', updatedUser);
           });
 
           //
           // === update user end ===
           //
+
+          debugLogger(verbose, 'Booted');
 
           setBooted(true);
           resolve(user as ChannelIOUser);
@@ -161,7 +178,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
         reject(err);
       }
     });
-  }, [onBootRef]);
+  }, [verbose, onBootRef]);
 
   /**
    * ### `shutdown`
@@ -170,23 +187,36 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
    *
    * @link https://developers.channel.io/docs/web-channel-io#shutdown
    */
-  const shutdown = useCallback((...args: ChannelIOApiShutdownMethodArgs) => {
-    ChannelIO('clearCallbacks');
-    ChannelIO('shutdown', ...args);
-    setBooted(false);
-  }, []);
+  const shutdown = useCallback(
+    (...args: ChannelIOApiShutdownMethodArgs) => {
+      debugLogger(verbose, 'Shuting down plugin...');
+      ChannelIO('clearCallbacks');
+      ChannelIO('shutdown', ...args);
+      setBooted(false);
+    },
+    [verbose]
+  );
 
   //
   // Bootstrap plugin.
   //
   useEffect(() => {
+    debugLogger(
+      verbose,
+      'Bootstraping plugin...',
+      '(Set verbose flag `false`, to remove these debugging logs)'
+    );
+
     void (async () => {
       try {
         createPluginQueue();
-        await scriptInjector(PLUGIN_URL);
+        await scriptInjector(PLUGIN_URL, verbose);
 
+        debugLogger(verbose, 'Auto boot flag set as', autoBoot);
         if (autoBoot) {
           await new Promise(r => setTimeout(r, autoBootTimeout));
+
+          debugLogger(verbose, 'Auto Booting...');
           await boot().catch(() => void 0);
         }
       } catch (err) {
@@ -215,6 +245,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   //
   useDeepEffect(() => {
     if (isBooted && rebootOnOptionChanged) {
+      debugLogger(verbose, 'Rebooting since option has been changed...');
       void boot().catch(() => void 0);
     }
   }, [channelIOBootOption]);
@@ -267,7 +298,10 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
     return () => {
       observer.disconnect();
     };
-  });
+  }, [
+    channelIOBootOption.customLauncherSelector,
+    useCustomLauncherSelectorTweak,
+  ]);
 
   //
   //

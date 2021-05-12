@@ -109,6 +109,12 @@ interface ReactChannelIOProps extends ChannelIOBootOption {
   useCustomLauncherSelectorTweak?: boolean;
 
   /**
+   * Print debug logs via `console.debug`.
+   * Set `false` when use plugin at production env.
+   */
+  verbose?: boolean;
+
+  /**
    * Emitted when channel plugin booted.
    */
   onBoot?: (err?: any, user?: ChannelIOUser) => void;

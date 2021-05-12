@@ -41,10 +41,12 @@ export function checkSSR() {
 /**
  * Inject script.
  */
-export async function scriptInjector(scriptUrl: string) {
+export async function scriptInjector(scriptUrl: string, verbose = false) {
   if (document.querySelector(`[src="${scriptUrl}"]`)) {
     return;
   }
+
+  debugLogger(verbose, 'Injecting SDK script...');
 
   return new Promise<void>((resolve, reject) => {
     const el = document.createElement('script');
@@ -71,7 +73,19 @@ export async function scriptInjector(scriptUrl: string) {
 /**
  * Log warning.
  */
-export function warnLogger(...msgs: string[]) {
+export function warnLogger(...msgs: any[]) {
   // eslint-disable-next-line no-console
   console.warn('[ReactChannelIO]', ...msgs);
+}
+
+/**
+ * Log debugging.
+ */
+export function debugLogger(verbose: boolean, ...msgs: any[]) {
+  if (!verbose) {
+    return;
+  }
+
+  // eslint-disable-next-line no-console
+  console.debug('⚙️ [ReactChannelIO - debug]', ...msgs);
 }
