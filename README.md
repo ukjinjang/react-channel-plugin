@@ -258,6 +258,47 @@ Playground for react-channel-plugin.
 
 [https://ukjinjang.github.io/react-channel-plugin](https://ukjinjang.github.io/react-channel-plugin)
 
+## TypeScript
+
+Please use typescript version higher than 3.8.
+
+Thanks to awesome util [downlevel-dts](https://github.com/sandersn/downlevel-dts), we can convert d.ts file to use at older version of TypeScript even code using newer feature (like [Labeled Tuple Elements](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html#labeled-tuple-elements)).
+
+## Unit Test
+
+To run unit test components that use react-channel plugin's hook with [react-testing-library](https://testing-library.com/docs/react-testing-library/intro/), pass `ReactChannelIO` provider to [`wrapper`](https://testing-library.com/docs/react-testing-library/api#wrapper) option of [`render`](https://testing-library.com/docs/react-testing-library/api#render) method.
+
+```tsx
+import '@testing-library/jest-dom/extend-expect';
+import { render } from '@testing-library/react';
+
+// ...
+
+render(<ComponentWithChannelHook {...props} />, {
+  wrapper: ({ children }) => {
+    return (
+      <ReactChannelIO
+        children={children}
+        pluginKey={CHANNEL_ID_PLUGIN_KEY}
+        {...pluginProps}
+      />
+    );
+  },
+});
+```
+
+## Brower compatibility
+
+| Browser (last 2 versions) |      |
+| ------------------------- | ---- |
+| Google Chrome             | ✅   |
+| MS Edge (Chromium)        | ✅   |
+| Mozilla Firefox           | ✅   |
+| Electron                  | ✅   |
+| IE 11                     | ⚠️ † |
+
+> † Since [Cypress not supports IE 11](https://docs.cypress.io/guides/guides/launching-browsers#Browsers), tested by hand (and may not fully tested).
+
 ## Issues
 
-`react-channel-plugin` is a light-weight wrapper of [Channel Talk JS SDK](https://developers.channel.io/docs/what-is-a-channel-plugin). Because of this, the issue you're having likely isn't a react-channel-plugin issue, but an issue with Channel Talk service itself. So please check it again, before submit new issue.
+`react-channel-plugin` is a light-weight wrapper of [Channel IO JavaScript SDK](https://developers.channel.io/docs/web-installation). Because of this, the issue you're having likely isn't a react-channel-plugin issue, but an issue with Channel IO service itself. So please check it again, before submit new issue.
