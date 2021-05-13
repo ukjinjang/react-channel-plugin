@@ -56,7 +56,7 @@ const EventConsole: React.FC = () => {
     <StyledEventConsole>
       <StyledTextarea
         value={log}
-        placeholder="Event logs is displayed here..."
+        placeholder="Event logs display here..."
         readOnly
         data-cy="event-console"
         ref={textareaRef}
