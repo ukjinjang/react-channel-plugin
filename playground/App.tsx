@@ -216,7 +216,6 @@ const App: React.FC = () => {
         <FeatureSection
           title="bootOption.customLauncherSelector"
           description="Css selector for custom button. Use it with hideChannelButtonOnBoot set to true."
-          link="https://developers.channel.io/docs/web-channel-io#hidechannelbutton"
         >
           {isCustomLauncherVisible ? (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid

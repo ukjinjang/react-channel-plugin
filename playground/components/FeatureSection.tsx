@@ -5,7 +5,7 @@ import Button from './Button';
 interface StyledSectionProps {
   title: string;
   description: string;
-  link: string;
+  link?: string;
   deprecated?: boolean;
   isActionButtonDisabled?: boolean;
   onActionButtonClick?: () => void;
@@ -35,12 +35,12 @@ const StyledSectionInfo = styled.div<{ deprecated: boolean }>`
 
   p {
     margin: 0;
-    margin-bottom: 0.25rem;
     color: rgba(36, 36, 40, 0.6);
     line-height: 1.65;
   }
 
   a {
+    margin-top: 0.25rem;
     color: #5e56f0;
     line-height: 1.65;
     word-break: break-all;
@@ -69,9 +69,11 @@ const FeatureSection: React.FC<StyledSectionProps> = ({
           {title} {deprecated ? '(deprecated)' : null}
         </h3>
         <p>{description}</p>
-        <a href={link} target="_blank" rel="noreferrer">
-          {link}
-        </a>
+        {link ? (
+          <a href={link} target="_blank" rel="noreferrer">
+            {link}
+          </a>
+        ) : null}
       </StyledSectionInfo>
 
       <StyledSectionAction>
