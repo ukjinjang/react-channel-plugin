@@ -16,8 +16,6 @@
 
 ## Installation
 
-#### Installation via NPM
-
 ```bash
 $ yarn add react-channel-plugin
 ```
@@ -238,9 +236,9 @@ const AppPage = () => {
 
 ## Pure APIs
 
-You can use Channel IO API wrapper without using React. Usages are same with [official API](https://developers.channel.io/docs/web-channel-io), but typed via TypeScript.
+You can use Channel IO API wrapper outside of React. Usage are same with [official API](https://developers.channel.io/docs/web-channel-io), but typed via TypeScript.
 
-**WARNING: DO NOT USE with `<ReactChannelIO />`, because there is change to overrides attached callbacks of react-channel-plugin and which will cause malfunctioning.**
+**WARNING: DO NOT USE with `<ReactChannelIO />`, because there is chance to overrides attached callbacks of react-channel-plugin and which will cause malfunctioning.**
 
 ```ts
 import { ChannelIO } from 'react-channel-plugin';
