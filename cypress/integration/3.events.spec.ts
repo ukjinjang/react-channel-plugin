@@ -42,7 +42,8 @@ describe('Plugin Events', () => {
     );
 
     cy.getChannelIOIframeBody().find('[name="more-white"]').click();
-    cy.getChannelIOIframeBody().contains('Delete chat').click();
+    cy.getChannelIOIframeBody().contains('Leave the Chat').click();
+    cy.getChannelIOIframeBody().contains('Got it').click();
   });
 
   it('should emits `onProfileChanged` event, when user profile changed via plugin messenger', () => {
