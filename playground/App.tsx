@@ -1,6 +1,7 @@
 import React from 'react';
 import { useChannelIOApi, useChannelIOEvent } from 'react-channel-plugin';
 import styled from 'styled-components';
+
 import AppHeader from './components/AppHeader';
 import EventConsole from './components/EventConsole';
 import FeatureSection from './components/FeatureSection';
@@ -25,9 +26,8 @@ const StyledCustomLauncherAnchor = styled.a`
 
 const App: React.FC = () => {
   const [isBooted, setBooted] = React.useState(false);
-  const [isCustomLauncherVisible, setCustomLauncherVisible] = React.useState(
-    false
-  );
+  const [isCustomLauncherVisible, setCustomLauncherVisible] =
+    React.useState(false);
 
   const {
     boot,

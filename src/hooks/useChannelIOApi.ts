@@ -1,21 +1,23 @@
 import { useCallback, useContext, useEffect, useRef } from 'react';
+
 import { ChannelIO } from '../ChannelIO';
 import { ReactChannelIOContext } from '../context';
+
 import type {
-  ChannelIOApiShowMessengerMethodArgs,
-  ChannelIOApiShowMethodArgs,
+  ChannelIOApiAddTagsMethodArgs,
+  ChannelIOApiHideChannelButtonMethodArgs,
   ChannelIOApiHideMessengerMethodArgs,
   ChannelIOApiHideMethodArgs,
   ChannelIOApiLoungeMethodArgs,
   ChannelIOApiOpenChatMethodArgs,
+  ChannelIOApiRemoveTagsMethodArgs,
+  ChannelIOApiResetPageMethodArgs,
+  ChannelIOApiSetPageMethodArgs,
+  ChannelIOApiShowChannelButtonMethodArgs,
+  ChannelIOApiShowMessengerMethodArgs,
+  ChannelIOApiShowMethodArgs,
   ChannelIOApiTrackMethodArgs,
   ChannelIOApiUpdateUserMethodArgs,
-  ChannelIOApiAddTagsMethodArgs,
-  ChannelIOApiRemoveTagsMethodArgs,
-  ChannelIOApiSetPageMethodArgs,
-  ChannelIOApiResetPageMethodArgs,
-  ChannelIOApiShowChannelButtonMethodArgs,
-  ChannelIOApiHideChannelButtonMethodArgs,
   ChannelIOUser,
 } from '../ChannelIO';
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { ReactChannelIO } from 'react-channel-plugin';
+import ReactDOM from 'react-dom';
 
 import App from './App';
 import { CHANNEL_IO_PLUGIN_KEY } from './config';

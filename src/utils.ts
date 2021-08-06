@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import deepEqual from 'fast-deep-equal';
+
 import type { DependencyList, EffectCallback } from 'react';
 
 /**

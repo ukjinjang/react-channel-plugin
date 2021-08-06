@@ -148,7 +148,8 @@ export type ChannelIOApiShutdownMethodArgs = Tail<ChannelIOShutdownMethodArgs>;
  */
 type ChannelIOShowMessengerMethodArgs = ChannelIOBuilder<'showMessenger'>;
 
-export type ChannelIOApiShowMessengerMethodArgs = Tail<ChannelIOShowMessengerMethodArgs>;
+export type ChannelIOApiShowMessengerMethodArgs =
+  Tail<ChannelIOShowMessengerMethodArgs>;
 
 /**
  * ### `show`
@@ -174,7 +175,8 @@ export type ChannelIOApiShowMethodArgs = Tail<ChannelIOShowMethodArgs>;
  */
 type ChannelIOHideMessengerMethodArgs = ChannelIOBuilder<'hideMessenger'>;
 
-export type ChannelIOApiHideMessengerMethodArgs = Tail<ChannelIOHideMessengerMethodArgs>;
+export type ChannelIOApiHideMessengerMethodArgs =
+  Tail<ChannelIOHideMessengerMethodArgs>;
 
 /**
  * ### `hide`
@@ -378,7 +380,8 @@ export type ChannelIOApiSetPageMethodArgs = Tail<ChannelIOSetPageMethodArgs>;
  */
 type ChannelIOResetPageMethodArgs = ChannelIOBuilder<'resetPage'>;
 
-export type ChannelIOApiResetPageMethodArgs = Tail<ChannelIOResetPageMethodArgs>;
+export type ChannelIOApiResetPageMethodArgs =
+  Tail<ChannelIOResetPageMethodArgs>;
 
 /**
  * ### `showChannelButton`
@@ -387,9 +390,11 @@ export type ChannelIOApiResetPageMethodArgs = Tail<ChannelIOResetPageMethodArgs>
  *
  * @link https://developers.channel.io/docs/web-channel-io#showchannelbutton
  */
-type ChannelIOShowChannelButtonMethodArgs = ChannelIOBuilder<'showChannelButton'>;
+type ChannelIOShowChannelButtonMethodArgs =
+  ChannelIOBuilder<'showChannelButton'>;
 
-export type ChannelIOApiShowChannelButtonMethodArgs = Tail<ChannelIOShowChannelButtonMethodArgs>;
+export type ChannelIOApiShowChannelButtonMethodArgs =
+  Tail<ChannelIOShowChannelButtonMethodArgs>;
 
 /**
  * ### `hideChannelButton`
@@ -398,9 +403,11 @@ export type ChannelIOApiShowChannelButtonMethodArgs = Tail<ChannelIOShowChannelB
  *
  * @link https://developers.channel.io/docs/web-channel-io#hidechannelbutton
  */
-type ChannelIOHideChannelButtonMethodArgs = ChannelIOBuilder<'hideChannelButton'>;
+type ChannelIOHideChannelButtonMethodArgs =
+  ChannelIOBuilder<'hideChannelButton'>;
 
-export type ChannelIOApiHideChannelButtonMethodArgs = Tail<ChannelIOHideChannelButtonMethodArgs>;
+export type ChannelIOApiHideChannelButtonMethodArgs =
+  Tail<ChannelIOHideChannelButtonMethodArgs>;
 
 /**
  * ### `onBoot`

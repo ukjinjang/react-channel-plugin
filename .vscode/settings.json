@@ -1,16 +1,19 @@
 {
-  // VS code
+  // vscode
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": false,
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
     "source.fixAll.tslint": false,
     "source.fixAll.stylelint": false
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
 
   // ESLint
+  // ref: https://github.com/microsoft/vscode-eslint
   // plugin: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+  "eslint.codeActionsOnSave.mode": "problems",
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -23,5 +26,5 @@
 
   // VScode IntelliCode
   // plugin: https://marketplace.visualstudio.com/items?itemName=VisualStudioExptTeam.vscodeintellicode
-  "vsintellicode.typescript.completionsEnabled": true,
+  "vsintellicode.typescript.completionsEnabled": true
 }

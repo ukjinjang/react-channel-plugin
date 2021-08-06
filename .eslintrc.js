@@ -9,7 +9,13 @@ module.exports = {
     'plugin:jsx-a11y/recommended',
     'plugin:cypress/recommended',
   ],
-  plugins: ['@typescript-eslint', 'react', 'jsdoc', 'jsx-a11y'],
+  plugins: [
+    '@typescript-eslint',
+    'react',
+    'jsdoc',
+    'jsx-a11y',
+    'simple-import-sort',
+  ],
   parserOptions: {
     project: ['tsconfig.eslint.json'],
     tsconfigRootDir: __dirname,
@@ -29,6 +35,7 @@ module.exports = {
     '@typescript-eslint/adjacent-overload-signatures': 'warn',
     '@typescript-eslint/array-type': 'warn',
     '@typescript-eslint/camelcase': 'off',
+    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -44,6 +51,35 @@ module.exports = {
 
     // === plugin:cypress/recommended ===
     'cypress/no-unnecessary-waiting': 'off',
+
+    // === plugin:simple-import-sort ===
+    // === ref: https://github.com/lydell/eslint-plugin-simple-import-sort ===
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages. `react` related packages come first.
+          ['^react', '^@?\\w'],
+          // Side effect imports.
+          ['^\\u0000'],
+          // Other relative imports. Put same-folder imports and `.` last.
+          [
+            '^src/',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+          ],
+          // Type imports.
+          ['^@?\\w.*\\u0000$', '^[^.].*\\u0000$', '^\\..*\\u0000$'],
+          // Style imports.
+          ['^.+\\.s?css$'],
+          // Image imports.
+          ['^.+\\.(png|jpg|jpeg|gif|svg)$'],
+        ],
+      },
+    ],
 
     // === eslint ===
     camelcase: 'off',

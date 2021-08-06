@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
+
 import { ChannelIO } from './ChannelIO';
 import { ReactChannelIOContext } from './context';
 import {
@@ -12,11 +13,12 @@ import {
   useDeepEffect,
   warnLogger,
 } from './utils';
+
 import type {
   ChannelIOApiShutdownMethodArgs,
   ChannelIOBootOption,
-  ChannelIOUser,
   ChannelIOUpdateUserData,
+  ChannelIOUser,
 } from './ChannelIO';
 
 /** Props of ReactChannelIO. */

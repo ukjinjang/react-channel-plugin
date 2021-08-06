@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import type { ChannelIOUser } from './ChannelIO';
 
 interface ReactChannelIOContextValue {
@@ -8,5 +9,5 @@ interface ReactChannelIOContextValue {
 }
 
 export const ReactChannelIOContext = createContext(
-  (null as unknown) as ReactChannelIOContextValue
+  null as unknown as ReactChannelIOContextValue
 );

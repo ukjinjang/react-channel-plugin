@@ -1,15 +1,17 @@
 import React, { useContext, useEffect } from 'react';
+
 import { ReactChannelIOContext } from '../context';
 import {
   checkEventMethodValidity,
-  ReactChannelIOInternalCustomEventDetail,
   REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
 } from '../events';
 import { useCallbackProp, warnLogger } from '../utils';
+
 import type {
   ChannelIOEventMethod,
   ChannelIOEventMethodArgsRecords,
 } from '../ChannelIO';
+import type { ReactChannelIOInternalCustomEventDetail } from '../events';
 
 /**
  * Using ChannelIO events through React hook.
@@ -34,8 +36,9 @@ export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
    */
   const handleChannelIOEvent = React.useCallback(
     (evt: Event) => {
-      const channelIOEvent = (evt as CustomEvent<ReactChannelIOInternalCustomEventDetail>)
-        .detail;
+      const channelIOEvent = (
+        evt as CustomEvent<ReactChannelIOInternalCustomEventDetail>
+      ).detail;
 
       if (!checkEventMethodValidity(channelIOEvent.method)) {
         return;
