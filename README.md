@@ -297,6 +297,28 @@ render(<ComponentWithChannelHook {...props} />, {
 
 > † Since [Cypress not supports IE 11](https://docs.cypress.io/guides/guides/launching-browsers#Browsers), tested by hand (and may not fully tested).
 
+### IE 11 support discontinued
+
+Channel IO offically said via email, the support is gradually being discontinued. Contact to Channel IO for more information. This is extraction of their email contents:
+
+> ### 인터넷 익스플로러(IE) 지원이 점차 중단됩니다.
+>
+> #### 지원중단 사유 
+> - 마이크로소프트의 IE 지원 종료 선언 
+> - 취약한 보안성, 느린 속도 등 안정적이지 않은 환경
+>
+> #### 단, IE를 계속해서 사용하셔도 불편 없도록 다음과 같이 적용합니다. 
+> 1. 익스플로러 웹사이트에서 고객이 채팅버튼을 누르면, 채팅창은 엣지 Edge 브라우저로 열립니다.  (단, 윈도우7/8 에서는 > iframe 적용)
+> 1. 고객이 다른 경로로 익스플로러에서 채팅창을 열게 되면, 레이아웃이 다소 깨져 보일 수 있어요.
+> #### 고객을 놓치면 안되죠! 
+> - 화면이 예쁘게 보이지 않더라도 고객과 정상적으로 채팅상담 가능하며, 이벤트 추적 등 핵심적인 기능은 모두 지원됩니다.
+>
+> #### 참고사항
+> - 채널톡을 이용하시는 고객 중 인터넷 익스플로러 사용자 비중 약 3% 
+> - 인터넷 익스플로러 최종 지원종료일은 2022년 6월 경으로 예정
+>
+> 💡 만약 핵심 고객군이 인터넷 익스플로러를 주로 사용하는 서비스라면, 미리 채널톡으로 문의 주세요.
+
 ## Issues
 
 `react-channel-plugin` is a light-weight wrapper of [Channel IO JavaScript SDK](https://developers.channel.io/docs/web-installation). Because of this, the issue you're having likely isn't a react-channel-plugin issue, but an issue with Channel IO service itself. So please check it again, before submit new issue.
