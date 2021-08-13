@@ -285,7 +285,7 @@ render(<ComponentWithChannelHook {...props} />, {
 });
 ```
 
-## Brower compatibility
+## Browser compatibility
 
 | Browser (last 2 versions) |      |
 | ------------------------- | ---- |
