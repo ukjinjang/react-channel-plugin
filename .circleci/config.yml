@@ -44,7 +44,7 @@ jobs:
       - checkout
       - install-packages
       - run:
-          name: Lint
+          name: Build
           command: yarn build
 
 workflows:
