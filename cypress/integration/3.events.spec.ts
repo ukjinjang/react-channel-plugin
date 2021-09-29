@@ -15,7 +15,7 @@ describe('Plugin Events', () => {
       '[onShowMessenger]'
     );
 
-    cy.getChannelIOIframeBody().find('[data-ch-testid="close-icon"]').click();
+    cy.getChannelIOIframeBody().find('svg[width="20"]:last-of-type').click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
       '[onHideMessenger]'
@@ -41,7 +41,7 @@ describe('Plugin Events', () => {
       '[onChatCreated]'
     );
 
-    cy.getChannelIOIframeBody().find('[name="more-white"]').click();
+    cy.getChannelIOIframeBody().find('svg[width="20"]').eq(1).click();
     cy.getChannelIOIframeBody().contains('Leave the Chat').click();
     cy.getChannelIOIframeBody().contains('Got it').click();
   });
@@ -50,11 +50,9 @@ describe('Plugin Events', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
 
     cy.get('[data-ch-testid="launcher"]').click();
-    cy.getChannelIOIframeBody()
-      .find('[data-ch-testid="settings-icon"]')
-      .click();
+    cy.getChannelIOIframeBody().find('svg[width="20"]:first-of-type').click();
 
-    cy.getChannelIOIframeBody().contains('span', 'Edit').click();
+    cy.getChannelIOIframeBody().contains('button', 'Edit').click();
 
     cy.wait(2000);
 
@@ -64,7 +62,7 @@ describe('Plugin Events', () => {
       .clear()
       .type(`010${phonenum}`);
 
-    cy.getChannelIOIframeBody().contains('span', 'Save').click();
+    cy.getChannelIOIframeBody().contains('button', 'Save').click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
       '[onProfileChanged]'
