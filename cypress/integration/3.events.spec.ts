@@ -41,16 +41,16 @@ describe('Plugin Events', () => {
       '[onChatCreated]'
     );
 
-    cy.getChannelIOIframeBody().find('svg[width="20"]').eq(1).click();
+    cy.getChannelIOIframeBody().find('div > svg[width="20"]').eq(1).click();
     cy.getChannelIOIframeBody().contains('Leave the Chat').click();
-    cy.getChannelIOIframeBody().contains('Got it').click();
+    cy.getChannelIOIframeBody().contains('Leave').click();
   });
 
   it('should emits `onProfileChanged` event, when user profile changed via plugin messenger', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
 
     cy.get('[data-ch-testid="launcher"]').click();
-    cy.getChannelIOIframeBody().find('svg[width="20"]:first-of-type').click();
+    cy.wait(1000).getChannelIOIframeBody().find('button:first-of-type').click();
 
     cy.getChannelIOIframeBody().contains('button', 'Edit').click();
 
