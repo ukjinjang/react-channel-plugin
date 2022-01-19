@@ -37,7 +37,7 @@ describe('Plugin APIs', () => {
   });
 
   it('should change user profile of plugin messenger, when `updateUser` called', () => {
-    cy.getChannelIOIframeBody().find('svg[width="20"]:first-of-type').click();
+    cy.getChannelIOIframeBody().find('button:first-of-type').click();
 
     cy.getChannelIOIframeBody()
       .should('contain.text', 'Info & Settings')
