@@ -2,5 +2,9 @@
   "nodeVersion": "system",
   "baseUrl": "http://localhost:8090",
   "testFiles": "**/*.spec.ts",
-  "ignoreTestFiles": "_*.ts"
+  "ignoreTestFiles": "_*.ts",
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "configFile": "reporter-config.json"
+  }
 }

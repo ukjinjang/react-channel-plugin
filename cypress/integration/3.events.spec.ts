@@ -15,7 +15,10 @@ describe('Plugin Events', () => {
       '[onShowMessenger]'
     );
 
-    cy.getChannelIOIframeBody().find('svg[width="20"]:last-of-type').click();
+    cy.wait(1000)
+      .getChannelIOIframeBody()
+      .find('button:last-of-type > svg[width="20"]')
+      .click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
       '[onHideMessenger]'

@@ -13,6 +13,7 @@
 /coverage
 /cypress/screenshots
 /cypress/videos
+/cypress/results
 
 # dependencies
 /node_modules
