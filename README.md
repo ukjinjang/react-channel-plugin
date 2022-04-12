@@ -35,7 +35,7 @@ import { CHANNEL_ID_PLUGIN_KEY } from './config';
 
 const App = () => {
   return (
-    <ReactChannelIO pluginKey={CHANNEL_ID_PLUGIN_KEY} locale="en" autoBoot>
+    <ReactChannelIO pluginKey={CHANNEL_ID_PLUGIN_KEY} language="en" autoBoot>
       <AppPage />
     </ReactChannelIO>
   );
@@ -133,7 +133,7 @@ const App = () => {
     <ReactChannelIO
       pluginKey={CHANNEL_ID_PLUGIN_KEY}
       hideChannelButtonOnBoot={true}
-      locale="en"
+      language="en"
       profile={userProfile}
       autoBoot
       autoBootTimeout={2000}
