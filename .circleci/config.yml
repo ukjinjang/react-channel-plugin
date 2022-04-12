@@ -64,6 +64,8 @@ workflows:
           post-steps:
             - store_artifacts:
                 path: coverage
+            - store_test_results:
+                path: cypress/results
             - codecov/upload:
                 file: 'coverage/clover.xml'
                 flags: integration
