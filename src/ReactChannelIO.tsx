@@ -23,6 +23,7 @@ import type {
 
 /** Props of ReactChannelIO. */
 export interface ReactChannelIOProps extends ChannelIOBootOption {
+  children?: React.ReactNode;
   /**
    * Indicates whether ChannelIO should be automatically booted or not.
    * If `true` no need to call `boot` manually.

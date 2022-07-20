@@ -1,6 +1,6 @@
 import React from 'react';
 import { ReactChannelIO } from 'react-channel-plugin';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import App from './App';
 import { CHANNEL_IO_PLUGIN_KEY } from './config';
@@ -8,7 +8,10 @@ import { CHANNEL_IO_PLUGIN_KEY } from './config';
 const autoBoot =
   new URLSearchParams(window.location.search).get('autoboot') === 'true';
 
-ReactDOM.render(
+const container = document.getElementById('root') as HTMLElement;
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <ReactChannelIO
       pluginKey={CHANNEL_IO_PLUGIN_KEY}
@@ -19,6 +22,5 @@ ReactDOM.render(
     >
       <App />
     </ReactChannelIO>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Button from './Button';
 
 interface StyledSectionProps {
+  children?: React.ReactNode;
   title: string;
   description: string;
   link?: string;
