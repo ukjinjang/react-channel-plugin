@@ -38,12 +38,13 @@ describe('Plugin APIs', () => {
   });
 
   it('should change user profile of plugin messenger, when `updateUser` called', () => {
-    cy.getChannelIOIframeBody().find('button:first-of-type').click();
-
     cy.getChannelIOIframeBody()
-      .should('contain.text', 'Info & Settings')
-      .contains('button', 'Edit')
+      .find('button:has(svg[width="20"])')
+      .first()
       .click();
+    cy.getChannelIOIframeBody().should('contain.text', 'Info & Settings');
+
+    cy.getChannelIOIframeBody().contains('button', 'Edit').click();
 
     cy.getChannelIOIframeBody()
       .find('input[type="tel"]')
