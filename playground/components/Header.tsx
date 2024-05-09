@@ -1,6 +1,10 @@
 import React from 'react';
 import GitHubButton from 'react-github-btn';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
+
+//
+//
+//
 
 const StyledHeader = styled.header`
   h1 {
@@ -46,10 +50,14 @@ const StyledHeaderIcon = styled.img`
   height: 6rem;
 `;
 
+//
+//
+//
+
 /**
  *
  */
-const AppHeader: React.FC = () => {
+const Header: React.FC = () => {
   return (
     <StyledHeader>
       <StyledHeaderIcon src="/favicon.png" alt="favicon" />
@@ -74,4 +82,4 @@ const AppHeader: React.FC = () => {
   );
 };
 
-export default AppHeader;
+export default Header;

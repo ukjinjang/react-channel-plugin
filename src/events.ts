@@ -1,85 +1,64 @@
-import type {
-  ChannelIOEventMethod,
-  ChannelIOEventMethodArgs,
-} from './ChannelIO';
+import { CHANNEL_IO_EVENT_API_NAMES, ChannelIO } from './ChannelIO';
 
-export interface ReactChannelIOInternalCustomEventDetail {
-  method: ChannelIOEventMethod;
-  args: Parameters<Required<ChannelIOEventMethodArgs>[1]>;
+import type * as channelio from '@channel.io/channel-web-sdk-loader';
+import type { ChannalIOEventApiArgsMap } from './ChannelIO';
+
+//
+//
+//
+
+type EventApiArgsMap = ChannalIOEventApiArgsMap & {
+  onBoot: [callback: channelio.Callback];
+};
+
+export type EventFnArgsMap = {
+  [K in keyof EventApiArgsMap]: Parameters<EventApiArgsMap[K][0]>;
+};
+
+export interface _InternalEventDetail {
+  name: keyof EventFnArgsMap;
+  args: EventFnArgsMap;
 }
 
-export const REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE = 'react-channelio-evt';
+//
+//
+//
 
-export const REACT_CHANNELIO_EVENT_METHODS: ChannelIOEventMethod[] = [
+export const _INTERNAL_EVENT_TYPE = 'react-channelio-evt';
+
+export const _INTERNAL_EVENT_API_NAMES = Object.freeze([
+  ...CHANNEL_IO_EVENT_API_NAMES,
   'onBoot',
-  'onShowMessenger',
-  'onShow',
-  'onHideMessenger',
-  'onHide',
-  'onBadgeChanged',
-  'onChangeBadge',
-  'onChatCreated',
-  'onCreateChat',
-  'onProfileChanged',
-  'onChangeProfile',
-  'onUrlClicked',
-  'onClickRedirect',
-];
+] as const);
+
+//
+//
+//
 
 /**
- * Get `window.CustomEvent`.
+ * [internal] Create dispatching function for internal event.
  */
-export const getCustomEvent = () => {
-  if (typeof window.CustomEvent === 'function') {
-    return window.CustomEvent;
-  }
-
-  // Polyfill `window.CustomEvent`.
-  // - ref: https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
-  const CustomEvent = function <T = any>(
-    typeArg: string,
-    eventInitDict?: CustomEventInit<T>
-  ) {
-    const evt = document.createEvent('CustomEvent');
-    evt.initCustomEvent(
-      typeArg,
-      eventInitDict?.bubbles ?? false,
-      eventInitDict?.cancelable ?? false,
-      eventInitDict?.detail ?? undefined
+export function createEventDispatcher<K extends keyof EventFnArgsMap>(name: K) {
+  return (...args: EventFnArgsMap[K]) => {
+    document.dispatchEvent(
+      new CustomEvent<_InternalEventDetail>(_INTERNAL_EVENT_TYPE, {
+        detail: {
+          name,
+          args: args as any,
+        },
+      })
     );
   };
-
-  CustomEvent.prototype = window.Event.prototype;
-
-  (window as any).CustomEvent = CustomEvent;
-
-  return window.CustomEvent;
-};
-
-/**
- * Check whether event method is valid or not.
- */
-export function checkEventMethodValidity(method: ChannelIOEventMethod) {
-  return REACT_CHANNELIO_EVENT_METHODS.includes(method);
 }
 
 /**
- * Create dispatching function for ChannelIO event.
+ * [internal] Register event callbacks.
  */
-export const createChannelIOEventDispatcher = (
-  method: ChannelIOEventMethod
-) => {
-  return (...args: Parameters<Required<ChannelIOEventMethodArgs>[1]>) => {
-    document.dispatchEvent(
-      new (getCustomEvent())<ReactChannelIOInternalCustomEventDetail>(
-        REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
-        {
-          detail: {
-            method,
-            args,
-          },
-        }
-      )
-    );
-  };
-};
+export function registerCallbackEvents() {
+  ChannelIO('clearCallbacks');
+  setTimeout(() => {
+    CHANNEL_IO_EVENT_API_NAMES.forEach(method => {
+      ChannelIO(method, createEventDispatcher(method));
+    });
+  });
+}

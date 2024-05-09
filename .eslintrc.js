@@ -84,7 +84,7 @@ module.exports = {
     // === eslint ===
     camelcase: 'off',
     'comma-dangle': 'off',
-    'no-console': 'warn',
+    'no-console': ['warn', { allow: ['debug', 'warn', 'error'] }],
     'no-multiple-empty-lines': 'off',
     'no-unused-expressions': 'off',
     'no-use-before-define': 'off',

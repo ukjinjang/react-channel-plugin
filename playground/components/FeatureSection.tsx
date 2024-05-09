@@ -1,17 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 import Button from './Button';
+
+//
+//
+//
 
 interface StyledSectionProps {
   children?: React.ReactNode;
   title: string;
-  description: string;
+  description: React.ReactNode;
   link?: string;
   deprecated?: boolean;
-  isActionButtonDisabled?: boolean;
-  onActionButtonClick?: () => void;
+  disabled?: boolean;
+  onClick?: () => void;
 }
+
+//
+//
+//
 
 const StyledSection = styled.section`
   margin-bottom: 3rem;
@@ -21,7 +29,7 @@ const StyledSection = styled.section`
   }
 `;
 
-const StyledSectionInfo = styled.div<{ deprecated: boolean }>`
+const StyledSectionInfo = styled.div`
   margin-bottom: 1rem;
 
   h3 {
@@ -29,10 +37,14 @@ const StyledSectionInfo = styled.div<{ deprecated: boolean }>`
     margin-bottom: 0.5rem;
     font-size: 1.3rem;
     font-weight: bold;
-    color: ${props => (props.deprecated ? '#65676A' : '#242428')};
+    color: #242428;
     line-height: 1.65;
-    text-decoration: ${props => (props.deprecated ? 'line-through' : 'none')};
     word-break: break-all;
+
+    &[data-deprecated='true'] {
+      color: #65676a;
+      text-decoration: line-through;
+    }
   }
 
   p {
@@ -49,6 +61,10 @@ const StyledSectionInfo = styled.div<{ deprecated: boolean }>`
   }
 `;
 
+//
+//
+//
+
 const StyledSectionAction = styled.div``;
 
 const StyledSectionActionButton = styled(Button)`
@@ -61,12 +77,15 @@ const FeatureSection: React.FC<StyledSectionProps> = ({
   description,
   link,
   deprecated = false,
-  isActionButtonDisabled = false,
-  onActionButtonClick,
+  disabled = false,
+  onClick,
 }) => {
-  return (
-    <StyledSection>
-      <StyledSectionInfo deprecated={deprecated}>
+  /**
+   * Section information
+   */
+  const renderSectionInfo = () => {
+    return (
+      <StyledSectionInfo data-deprecated={deprecated}>
         <h3>
           {title} {deprecated ? '(deprecated)' : null}
         </h3>
@@ -77,19 +96,37 @@ const FeatureSection: React.FC<StyledSectionProps> = ({
           </a>
         ) : null}
       </StyledSectionInfo>
+    );
+  };
 
+  /**
+   *
+   */
+  const renderSectionAction = () => {
+    return (
       <StyledSectionAction>
         {children}
-        {onActionButtonClick ? (
+        {onClick ? (
           <StyledSectionActionButton
             data-cy={`action-button-${title}`}
-            disabled={isActionButtonDisabled}
-            onClick={onActionButtonClick}
+            disabled={disabled}
+            onClick={onClick}
           >
             {title}
           </StyledSectionActionButton>
         ) : null}
       </StyledSectionAction>
+    );
+  };
+
+  //
+  //
+  //
+
+  return (
+    <StyledSection>
+      {renderSectionInfo()}
+      {renderSectionAction()}
     </StyledSection>
   );
 };

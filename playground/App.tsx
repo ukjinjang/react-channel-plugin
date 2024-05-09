@@ -1,10 +1,18 @@
 import React from 'react';
-import { useChannelIOApi, useChannelIOEvent } from 'react-channel-plugin';
-import styled from 'styled-components';
+import {
+  ReactChannelIOLauncher,
+  useChannelIOApi,
+  useChannelIOEvent,
+} from 'react-channel-plugin';
+import styled from '@emotion/styled';
 
-import AppHeader from './components/AppHeader';
 import EventConsole from './components/EventConsole';
 import FeatureSection from './components/FeatureSection';
+import Header from './components/Header';
+
+//
+//
+//
 
 const StyledMain = styled.main`
   margin-left: auto;
@@ -24,20 +32,52 @@ const StyledCustomLauncherAnchor = styled.a`
   cursor: pointer;
 `;
 
+const StyledCustomLauncher = styled.button`
+  padding: 0.5rem;
+  border: 2px solid #000;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 1) 0%,
+    rgba(255, 154, 0, 1) 10%,
+    rgba(208, 222, 33, 1) 20%,
+    rgba(79, 220, 74, 1) 30%,
+    rgba(63, 218, 216, 1) 40%,
+    rgba(47, 201, 226, 1) 50%,
+    rgba(28, 127, 238, 1) 60%,
+    rgba(95, 21, 242, 1) 70%,
+    rgba(186, 12, 248, 1) 80%,
+    rgba(251, 7, 217, 1) 90%,
+    rgba(255, 0, 0, 1) 100%
+  );
+  font-weight: bold;
+  transition: transform 1000ms ease-in-out;
+  cursor: pointer;
+
+  &[data-channelio-open='true'] {
+    transform: rotate(180deg);
+  }
+
+  &:disabled {
+    background: #ccc;
+    border-color: #aaa;
+  }
+`;
+
+//
+//
+//
+
 const App: React.FC = () => {
   const [isBooted, setBooted] = React.useState(false);
-  const [isCustomLauncherVisible, setCustomLauncherVisible] =
-    React.useState(false);
 
   const {
     boot,
     shutdown,
     showMessenger,
-    show,
     hideMessenger,
-    hide,
-    lounge,
     openChat,
+    openSupportBot,
     track,
     updateUser,
     addTags,
@@ -46,41 +86,34 @@ const App: React.FC = () => {
     resetPage,
     showChannelButton,
     hideChannelButton,
+    setAppearance,
   } = useChannelIOApi();
 
   useChannelIOEvent('onBoot', () => {
     setBooted(true);
   });
 
-  React.useEffect(() => {
-    if (isBooted) {
-      setTimeout(() => setCustomLauncherVisible(true), 2000);
-    } else {
-      setCustomLauncherVisible(false);
-    }
-  }, [isBooted]);
-
   return (
     <StyledMain>
       <StyledMainContent>
-        <AppHeader />
+        <Header />
 
         <EventConsole />
 
         <FeatureSection
           title="boot"
-          description="Boot up channel plugin(button) to make it ready to use"
-          link="https://developers.channel.io/docs/web-channel-io#boot"
-          isActionButtonDisabled={isBooted}
-          onActionButtonClick={() => boot()}
+          description="Initialize for the SDK."
+          link="https://developers.channel.io/docs/web-channelio#boot"
+          disabled={isBooted}
+          onClick={() => void boot()}
         />
 
         <FeatureSection
           title="shutdown"
-          description="Shutdown channel plugin"
-          link="https://developers.channel.io/docs/web-channel-io#shutdown"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => {
+          description="Stops all SDK operations and initializes internal data."
+          link="https://developers.channel.io/docs/web-channelio#shutdown"
+          disabled={!isBooted}
+          onClick={() => {
             setBooted(false);
             shutdown();
           }}
@@ -88,71 +121,52 @@ const App: React.FC = () => {
 
         <FeatureSection
           title="showMessenger"
-          description="Show plugin messenger"
-          link="https://developers.channel.io/docs/web-channel-io#showmessenger"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => showMessenger()}
-        />
-
-        <FeatureSection
-          title="show"
-          description="Show plugin messenger"
-          link="https://developers.channel.io/docs/web-channel-io#show"
-          deprecated
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => show()}
+          description="Shows the messenger."
+          link="https://developers.channel.io/docs/web-channelio#showmessenger"
+          disabled={!isBooted}
+          onClick={() => showMessenger()}
         />
 
         <FeatureSection
           title="hideMessenger"
-          description="Hide plugin messenger"
-          link="https://developers.channel.io/docs/web-channel-io#hidemessenger"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => hideMessenger()}
-        />
-
-        <FeatureSection
-          title="hide"
-          description="Hide plugin messenger"
-          link="https://developers.channel.io/docs/web-channel-io#hide"
-          deprecated
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => hide()}
-        />
-
-        <FeatureSection
-          title="lounge"
-          description="Go to the lounge view."
-          link="https://developers.channel.io/docs/web-channel-io#lounge"
-          deprecated
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => lounge()}
+          description="Hides the messenger."
+          link="https://developers.channel.io/docs/web-channelio#hidemessenger"
+          disabled={!isBooted}
+          onClick={() => hideMessenger()}
         />
 
         <FeatureSection
           title="openChat"
-          description="Open a chat with the given chat id and message. If the given chat id exists, appropriate chat will be opened. If not, lounge will be opened. In this case, the message will be ignored. If chat id is empty and message is given, new chat will be opened and the given message will be put in the input box. In this case, the support bot will not run. if chat id and message is both empty, new chat will be opened."
-          link="https://developers.channel.io/docs/web-channel-io#openchat"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() =>
-            openChat('', 'Hi, this is a test message!')
+          description="Opens a chat."
+          link="https://developers.channel.io/docs/web-channelio#openchat"
+          disabled={!isBooted}
+          onClick={() => openChat('', 'Hi, this is a test message!')}
+        />
+
+        <FeatureSection
+          title="openSupportBot"
+          description="Opens a chat and initiates a specific support bot. (won't work since demo account is not paid account)"
+          link="https://developers.channel.io/docs/web-channelio#openchat"
+          disabled={!isBooted}
+          onClick={() =>
+            openSupportBot('101816', 'Hi, this is a test message!')
           }
         />
 
         <FeatureSection
           title="track"
-          description="Track an event"
-          link="https://developers.channel.io/docs/web-channel-io#openchat"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => track('', {})}
+          description="Tracks an event."
+          link="https://developers.channel.io/docs/web-channelio#openchat"
+          disabled={!isBooted}
+          onClick={() => track('', {})}
         />
 
         <FeatureSection
           title="updateUser"
-          description="Update user information."
-          link="https://developers.channel.io/docs/web-channel-io#updateuser"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() =>
+          description="Update a user’s information."
+          link="https://developers.channel.io/docs/web-channelio#updateuser"
+          disabled={!isBooted}
+          onClick={() =>
             updateUser({
               profile: {
                 name: Math.random().toString(36).substr(2),
@@ -167,57 +181,69 @@ const App: React.FC = () => {
 
         <FeatureSection
           title="addTags"
-          description="Add tags."
-          link="https://developers.channel.io/docs/web-channel-io#addtags"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => addTags([])}
+          description="Adds a user’s tags."
+          link="https://developers.channel.io/docs/web-channelio#addtags"
+          disabled={!isBooted}
+          onClick={() => addTags([])}
         />
 
         <FeatureSection
           title="removeTags"
-          description="Remove tags."
-          link="https://developers.channel.io/docs/web-channel-io#removetags"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => removeTags([])}
+          description="Removes a user’s tags."
+          link="https://developers.channel.io/docs/web-channelio#removetags"
+          disabled={!isBooted}
+          onClick={() => removeTags([])}
         />
 
         <FeatureSection
           title="setPage"
-          description="Set page to be used instead of canonical url."
-          link="https://developers.channel.io/docs/web-channel-io#setpage"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => setPage('')}
+          description="Set the page. Page can be used instead of canonical URL."
+          link="https://developers.channel.io/docs/web-channelio#setpage"
+          disabled={!isBooted}
+          onClick={() => setPage('')}
         />
 
         <FeatureSection
           title="resetPage"
-          description="Reset page data customized by developer."
-          link="https://developers.channel.io/docs/web-channel-io#resetpage"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => resetPage()}
+          description="Reset the page value set by setPage. When resetPage is used, the canonical URL will be used as the page value."
+          link="https://developers.channel.io/docs/web-channelio#resetpage"
+          disabled={!isBooted}
+          onClick={() => resetPage()}
         />
 
         <FeatureSection
           title="showChannelButton"
-          description="Show channel button."
-          link="https://developers.channel.io/docs/web-channel-io#showchannelbutton"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => showChannelButton()}
+          description="Show the channel button."
+          link="https://developers.channel.io/docs/web-channelio#showchannelbutton"
+          disabled={!isBooted}
+          onClick={() => showChannelButton()}
         />
 
         <FeatureSection
           title="hideChannelButton"
-          description="Hide channel button."
-          link="https://developers.channel.io/docs/web-channel-io#hidechannelbutton"
-          isActionButtonDisabled={!isBooted}
-          onActionButtonClick={() => hideChannelButton()}
+          description="Hides the channel button."
+          link="https://developers.channel.io/docs/web-channelio#hidechannelbutton"
+          disabled={!isBooted}
+          onClick={() => hideChannelButton()}
+        />
+
+        <FeatureSection
+          title="setAppearance"
+          description="Set the appearance of the theme. (randomly change the theme for demo purpose)"
+          link="https://developers.channel.io/docs/web-channelio#setappearance"
+          disabled={!isBooted}
+          onClick={() =>
+            setAppearance(
+              (['dark', 'light'] as const)[Math.floor(Math.random() * 2)]
+            )
+          }
         />
 
         <FeatureSection
           title="bootOption.customLauncherSelector"
           description="Css selector for custom button. Use it with hideChannelButtonOnBoot set to true."
         >
-          {isCustomLauncherVisible ? (
+          {isBooted ? (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
             <StyledCustomLauncherAnchor
               className="playground-launcher"
@@ -228,6 +254,23 @@ const App: React.FC = () => {
           ) : (
             <span>Custom launcher is shown after plugin booted.</span>
           )}
+        </FeatureSection>
+
+        <FeatureSection
+          title="<ReactChannelIOLauncher />"
+          description="React component for custom Channel messenger launcher."
+        >
+          <ReactChannelIOLauncher>
+            {({ isBooted, isOpen, toggle }) => (
+              <StyledCustomLauncher
+                data-channelio-open={isOpen}
+                disabled={!isBooted}
+                onClick={toggle}
+              >
+                Open Channel Messenger
+              </StyledCustomLauncher>
+            )}
+          </ReactChannelIOLauncher>
         </FeatureSection>
       </StyledMainContent>
     </StyledMain>
