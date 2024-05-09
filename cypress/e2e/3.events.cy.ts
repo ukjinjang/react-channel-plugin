@@ -9,17 +9,15 @@ describe('Plugin Events', () => {
   it('should emits `onShowMessenger` or `onHideMessenger` events, when plugin messenger toggled', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
 
+    cy.wait(2000); // hmm... channel plugin issue???
+
     cy.get('[data-ch-testid="launcher"]').click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
       '[onShowMessenger]'
     );
 
-    cy.wait(1000)
-      .getChannelIOIframeBody()
-      .find('button:has(svg[width="20"])')
-      .last()
-      .click();
+    cy.get('[data-ch-testid="launcher"]').click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
       '[onHideMessenger]'
@@ -58,27 +56,20 @@ describe('Plugin Events', () => {
     cy.visit({ url: '/', qs: { autoboot: true } });
 
     cy.get('[data-ch-testid="launcher"]').click();
-    cy.wait(1000)
-      .getChannelIOIframeBody()
-      .find('button:has(svg[width="20"])')
-      .first()
-      .click();
 
-    cy.getChannelIOIframeBody().contains('button', 'Edit').click();
+    cy.getChannelIOIframeBody().find('a[href="/setting"]').click();
+    cy.getChannelIOIframeBody().find('a[href="/setting/edit"]').click();
 
-    cy.wait(2000);
+    const email = `${Math.random().toString(36).substring(2, 10)}@test.com`;
 
-    const phonenum = Math.floor(Math.random() * 90000000) + 10000000;
-    cy.getChannelIOIframeBody()
-      .find('input[type="tel"]')
-      .clear()
-      .type(`010${phonenum}`);
+    cy.getChannelIOIframeBody().find('input[type="email"]').clear();
+    cy.getChannelIOIframeBody().find('input[type="email"]').type(`010${email}`);
 
     cy.getChannelIOIframeBody().contains('button', 'Save').click();
     cy.get('[data-cy="event-console"]').should(
       'include.value',
-      '[onProfileChanged]'
+      '[onFollowUpChanged]'
     );
-    cy.get('[data-cy="event-console"]').should('include.value', phonenum);
+    cy.get('[data-cy="event-console"]').should('include.value', email);
   });
 });

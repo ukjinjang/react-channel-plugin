@@ -1,9 +1,8 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "skipLibCheck": true,
-    "isolatedModules": false,
+    "typeRoots": ["../node_modules/@types", "../node_modules"],
     "types": ["cypress", "node"]
   },
-  "include": ["./**/*.ts"]
+  "include": ["**/*.ts"]
 }

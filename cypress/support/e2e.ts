@@ -1,6 +1,5 @@
-/* eslint-disable simple-import-sort/imports */
 // ***********************************************************
-// This example support/index.js is processed and
+// This example support/e2e.ts is processed and
 // loaded automatically before your test files.
 //
 // This is a great place to put global configuration and
@@ -14,12 +13,14 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// Import commands.js using ES2015 syntax:
-import './commands';
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
-
-// Support code coverage.
-// ref: https://docs.cypress.io/guides/tooling/code-coverage.html#E2E-code-coverage
 import '@cypress/code-coverage/support';
+
+beforeEach(() => {
+  Cypress.Commands.add('getChannelIOIframeBody', () => {
+    return cy
+      .get('iframe[id="ch-plugin-script-iframe"]', { log: false })
+      .its('0.contentDocument.body', { log: false })
+      .should('not.be.empty')
+      .then(body => cy.wrap(body as HTMLBodyElement, { log: false }));
+  });
+});
