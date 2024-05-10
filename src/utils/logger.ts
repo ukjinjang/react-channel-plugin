@@ -2,7 +2,7 @@
  * Log warning.
  */
 export function warnLogger(...msgs: any[]) {
-  console.warn('[react-channel-plugin]', ...msgs);
+  console.warn('[react-channel-plugin]', ...(msgs as string[]));
 }
 
 /**
@@ -13,5 +13,5 @@ export function debugLogger(verbose: boolean, ...msgs: any[]) {
     return;
   }
 
-  console.debug('⚙️ [react-channel-plugin - debug]', ...msgs);
+  console.debug('⚙️ [react-channel-plugin - debug]', ...(msgs as string[]));
 }
