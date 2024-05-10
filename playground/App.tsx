@@ -241,7 +241,7 @@ const App: React.FC = () => {
 
         <FeatureSection
           title="bootOption.customLauncherSelector"
-          description="Css selector for custom button. Use it with hideChannelButtonOnBoot set to true."
+          description="Css selector for custom button."
         >
           {isBooted ? (
             // eslint-disable-next-line jsx-a11y/anchor-is-valid
