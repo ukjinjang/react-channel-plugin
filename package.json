@@ -22,6 +22,7 @@
   "files": [
     "es",
     "lib",
+    "LICENSE",
     "package.json",
     "README.md"
   ],
@@ -37,17 +38,13 @@
     "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build.es.json",
     "playground": "vite",
     "playground:build": "vite build && del \"build/_*\" && touch build/.nojekyll",
-    "playground:build-e2e": "cross-env CYPRESS_COVERAGE=true VITE_COVERAGE=true run-s playground:build",
-    "e2e": "run-s playground:build-e2e && start-test serve 8090 'cypress open'",
-    "pree2e:cli": "run-s e2e-results:delete",
-    "e2e:cli": "run-s playground:build-e2e && start-test serve 8090 'cypress run'",
-    "poste2e:cli": "run-s e2e-results:combine",
-    "e2e:build-and-serve": "run-s playground:build-e2e serve",
-    "e2e-results:delete": "rimraf ./cypress/screenshots ./cypress/videos ./cypress/results",
-    "e2e-results:combine": "jrm ./cypress/results/combined-report.xml \"./cypress/results/*.xml\"",
+    "playground:e2e": "cross-env CYPRESS_COVERAGE=true VITE_COVERAGE=true run-s playground:build",
+    "playground:deploy": "gh-pages -t -m \"update gh-pages [ci skip]\" -d build",
+    "e2e": "run-s playground:e2e && start-test serve 8090 'cypress open'",
+    "e2e:cli": "run-s playground:e2e && start-test serve 8090 'cypress run'",
+    "coverage:combine": "jrm ./cypress/results/combined-report.xml \"./cypress/results/*.xml\"",
     "lint": "eslint --ext .ts --ext .tsx ./src",
     "prettier": "prettier-eslint --write $PWD/\"src/**/*.ts?(x)\"",
-    "deploy:playground": "gh-pages -t -m \"update gh-pages [ci skip]\" -d build",
     "serve": "serve -l 8090 -s ./build"
   },
   "peerDependencies": {

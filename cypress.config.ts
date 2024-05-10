@@ -15,6 +15,7 @@ export default defineConfig({
     },
   },
   includeShadowDom: true,
+  projectId: 'q8rekw',
   reporter: 'cypress-multi-reporters',
   reporterOptions: {
     configFile: 'reporter-config.json',

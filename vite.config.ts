@@ -20,6 +20,7 @@ const srcRoot = path.join(cwd, 'src');
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, root, '');
+  const isTestEnv = env.CYPRESS_COVERAGE === 'true';
 
   return {
     root,
@@ -27,6 +28,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: path.join(cwd, 'build'),
       emptyOutDir: true,
+      sourcemap: isTestEnv ? 'inline' : 'hidden',
     },
 
     define: {
@@ -77,7 +79,7 @@ export default defineConfig(({ mode }) => {
       istanbul({
         cwd,
         cypress: true,
-        forceBuildInstrument: env.CYPRESS_COVERAGE === 'true',
+        forceBuildInstrument: isTestEnv,
         extension: ['.ts', '.tsx'],
         include: ['src/**/*'],
         nycrcPath: path.join(cwd, '.nycrc.json'),
