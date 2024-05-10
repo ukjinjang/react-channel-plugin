@@ -1,28 +1,22 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { loadScript as channelio_loadScript } from '@channel.io/channel-web-sdk-loader';
 
+import { debugLogger, warnLogger } from './utils/logger';
+import { useCurrentRef } from './utils/useCurrentRef';
+import { useDeepEffect } from './utils/useDeepEffect';
 import { ChannelIO } from './ChannelIO';
 import { ReactChannelIOContext } from './context';
-import {
-  createChannelIOEventDispatcher,
-  REACT_CHANNELIO_EVENT_METHODS,
-} from './events';
-import {
-  debugLogger,
-  scriptInjector,
-  useCallbackProp,
-  useDeepEffect,
-  warnLogger,
-} from './utils';
+import { createEventDispatcher, registerCallbackEvents } from './events';
 
-import type {
-  ChannelIOApiShutdownMethodArgs,
-  ChannelIOBootOption,
-  ChannelIOUpdateUserData,
-  ChannelIOUser,
-} from './ChannelIO';
+import type * as channelio from '@channel.io/channel-web-sdk-loader';
+import type { ChannalIOApiMap } from './ChannelIO';
+
+//
+//
+//
 
 /** Props of ReactChannelIO. */
-export interface ReactChannelIOProps extends ChannelIOBootOption {
+export interface ReactChannelIOProps extends channelio.BootOption {
   children?: React.ReactNode;
   /**
    * Indicates whether ChannelIO should be automatically booted or not.
@@ -52,15 +46,21 @@ export interface ReactChannelIOProps extends ChannelIOBootOption {
   /**
    * Emitted when channel plugin booted.
    */
-  onBoot?: (err?: any, user?: ChannelIOUser) => void;
+  onBoot?: channelio.Callback;
 }
 
-/** URL of ChannelIO SDK. */
-const PLUGIN_URL = 'https://cdn.channel.io/plugin/ch-plugin-web.js';
+//
+//
+//
+
 /** Attribute name of custom launcher. */
 const LAUNCHER_ATTR_NAME = 'data-channel-plugin';
 /** Attribute value of custom launcher. */
 const LAUNCHER_ATTR_VAL = 'launcher';
+
+//
+//
+//
 
 export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   children,
@@ -72,44 +72,10 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   onBoot,
   ...channelIOBootOption
 }) => {
-  const onBootRef = useCallbackProp(onBoot);
-
-  const optionRef = useRef(channelIOBootOption);
+  const optionRef = useCurrentRef(channelIOBootOption);
+  const onBootRef = useCurrentRef(onBoot);
 
   const [isBooted, setBooted] = React.useState(false);
-
-  /**
-   * Make ready before plug in init.
-   * - ref: https://developers.channel.io/docs/web-installation
-   */
-  const createPluginQueue = () => {
-    if (window.ChannelIO) {
-      return;
-    }
-
-    debugLogger(verbose, 'Creating plugin queue...');
-
-    const ch = function (...args: any[]) {
-      ch.c(args);
-    };
-
-    ch.q = [] as any[];
-
-    ch.c = function (args: any[]) {
-      ch.q.push(args);
-    };
-
-    window.ChannelIO = ch;
-  };
-
-  /**
-   * Add event callbacks that dispatching internal events.
-   */
-  const addPluginEventCallbacks = () => {
-    REACT_CHANNELIO_EVENT_METHODS.forEach(method => {
-      ChannelIO(method, createChannelIOEventDispatcher(method));
-    });
-  };
 
   /**
    * ### `boot`
@@ -121,14 +87,16 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
    * @param option a Boot Option object contains informations to initialize Channel IO plugin
    */
   const boot = useCallback(async () => {
-    return new Promise<ChannelIOUser>((resolve, reject) => {
+    return new Promise<channelio.User | null>((resolve, reject) => {
       try {
-        addPluginEventCallbacks();
-
         debugLogger(verbose, 'Booting plugin...');
         debugLogger(verbose, 'boot options =>', optionRef.current);
 
+        debugLogger(verbose, 'Registering callback events...');
+        registerCallbackEvents();
+
         ChannelIO('boot', optionRef.current, (err, user) => {
+          createEventDispatcher('onBoot')(err, user);
           if (typeof onBootRef.current === 'function') {
             onBootRef.current(err, user);
           }
@@ -145,7 +113,7 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
           // Need to update user since channel plugin has limitation
           //
 
-          const updateUserData: ChannelIOUpdateUserData = {};
+          const updateUserData: channelio.UpdateUserInfo = {};
 
           // Change user language, when user language of plugin different with option one.
           // User language won't change, if the user already created.
@@ -174,14 +142,16 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
 
           debugLogger(verbose, 'Booted');
 
-          setBooted(true);
-          resolve(user as ChannelIOUser);
+          setTimeout(() => {
+            setBooted(true);
+            resolve(user);
+          });
         });
       } catch (err) {
         reject(err);
       }
     });
-  }, [verbose, onBootRef]);
+  }, [verbose, optionRef, onBootRef]);
 
   /**
    * ### `shutdown`
@@ -190,8 +160,8 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
    *
    * @link https://developers.channel.io/docs/web-channel-io#shutdown
    */
-  const shutdown = useCallback(
-    (...args: ChannelIOApiShutdownMethodArgs) => {
+  const shutdown = useCallback<ChannalIOApiMap['shutdown']>(
+    (...args) => {
       debugLogger(verbose, 'Shuting down plugin...');
       ChannelIO('clearCallbacks');
       ChannelIO('shutdown', ...args);
@@ -203,45 +173,40 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   //
   // Bootstrap plugin.
   //
-  useEffect(() => {
-    debugLogger(
-      verbose,
-      'Bootstraping plugin...',
-      '(Set verbose flag `false`, to remove these debugging logs)'
-    );
+  useEffect(
+    () => {
+      debugLogger(
+        verbose,
+        'Bootstraping plugin...',
+        '(Set verbose flag `false`, to remove these debugging logs)'
+      );
 
-    void (async () => {
-      try {
-        createPluginQueue();
-        await scriptInjector(PLUGIN_URL, verbose);
+      void (async () => {
+        try {
+          channelio_loadScript();
 
-        debugLogger(verbose, 'Auto boot flag set as', autoBoot);
-        if (autoBoot) {
-          await new Promise(r => setTimeout(r, autoBootTimeout));
+          debugLogger(verbose, 'Auto boot flag set as', autoBoot);
+          if (autoBoot) {
+            await new Promise(r => setTimeout(r, autoBootTimeout));
 
-          debugLogger(verbose, 'Auto Booting...');
-          await boot().catch(() => void 0);
+            debugLogger(verbose, 'Auto Booting...');
+            await boot().catch(() => void 0);
+          }
+        } catch (err) {
+          warnLogger(
+            'Error occurred at plugin boot processing on first mount.',
+            err
+          );
         }
-      } catch (err) {
-        warnLogger(
-          'Error occurred at plugin boot processing on first mount.',
-          err
-        );
-      }
-    })();
+      })();
 
-    return () => {
-      shutdown();
-    };
+      return () => {
+        shutdown();
+      };
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //
-  //
-  //
-  useEffect(() => {
-    optionRef.current = channelIOBootOption;
-  }, [channelIOBootOption]);
+    []
+  );
 
   //
   // Re-boot channel plugin when boot option changed.
@@ -311,8 +276,9 @@ export const ReactChannelIO: React.FC<ReactChannelIOProps> = ({
   //
 
   return (
-    <ReactChannelIOContext.Provider value={{ isBooted, boot, shutdown }}>
-      {children}
-    </ReactChannelIOContext.Provider>
+    <ReactChannelIOContext.Provider
+      children={children}
+      value={{ isBooted, boot, shutdown }}
+    />
   );
 };

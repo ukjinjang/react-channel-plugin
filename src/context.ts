@@ -1,12 +1,20 @@
 import { createContext } from 'react';
 
-import type { ChannelIOUser } from './ChannelIO';
+import type * as channelio from '@channel.io/channel-web-sdk-loader';
 
-interface ReactChannelIOContextValue {
+//
+//
+//
+
+export interface ReactChannelIOContextValue {
   isBooted: boolean;
-  boot: () => Promise<ChannelIOUser>;
+  boot: () => Promise<channelio.User | null>;
   shutdown: () => void;
 }
+
+//
+//
+//
 
 export const ReactChannelIOContext = createContext(
   null as unknown as ReactChannelIOContextValue

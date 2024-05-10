@@ -14,6 +14,8 @@
 
 [Channel IO](https://channel.io) (Channel Talk) plugin wrapper for React.
 
+> If you want to use Channel IO plugin without React, please refer [channel-web-sdk-loader](https://github.com/channel-io/channel-web-sdk-loader).
+
 ## Installation
 
 ```bash
@@ -132,7 +134,6 @@ const App = () => {
   return (
     <ReactChannelIO
       pluginKey={CHANNEL_ID_PLUGIN_KEY}
-      hideChannelButtonOnBoot={true}
       language="en"
       profile={userProfile}
       autoBoot
@@ -146,16 +147,14 @@ const App = () => {
 
 ### useChannelIOApi
 
-Provides API of Channel IO as React hook. Please refer [official docs](https://developers.channel.io/docs/web-channel-io) to see detail description of each API.
+Provides API of Channel IO as React hook. Please refer [official docs](https://developers.channel.io/docs/web-channelio) to see detail description of each API.
 
 - `boot`
 - `shutdown`
 - `showMessenger`
-- ~~`show`~~ (will be deprecated)
 - `hideMessenger`
-- ~~`hide`~~ (will be deprecated)
-- ~~`lounge`~~ (will be deprecated)
 - `openChat`
+- `openSupportBot`
 - `track`
 - `clearCallbacks`
 - `updateUser`
@@ -165,6 +164,7 @@ Provides API of Channel IO as React hook. Please refer [official docs](https://d
 - `resetPage`
 - `showChannelButton`
 - `hideChannelButton`
+- `setAppearance`
 
 #### Example
 
@@ -200,21 +200,15 @@ const AppPage = () => {
 
 ### useChannelIOEvent
 
-Provides event callbacks from Channel IO as React hook. Provide callback method name as first parameter of hook method. Please refer [official docs](https://developers.channel.io/docs/web-channel-io) to see detail description of each callback.
+Provides event callbacks from Channel IO as React hook. Provide callback method name as first parameter of hook method. Please refer [official docs](https://developers.channel.io/docs/web-channelio) to see detail description of each callback.
 
-- ~~`onBoot`~~ (will be deprecated)
+
 - `onShowMessenger`
-- ~~`onShow`~~ (will be deprecated)
 - `onHideMessenger`
-- ~~`onHide`~~ (will be deprecated)
 - `onBadgeChanged`
-- ~~`onChangeBadge`~~ (will be deprecated)
 - `onChatCreated`
-- ~~`onCreateChat`~~ (will be deprecated)
-- `onProfileChanged`
-- ~~`onChangeProfile`~~ (will be deprecated)
+- `onFollowUpChanged`
 - `onUrlClicked`
-- ~~`onClickRedirect`~~ (will be deprecated)
 
 #### Example
 
@@ -223,31 +217,15 @@ import { useChannelIOApi } from 'react-channel-plugin';
 
 const AppPage = () => {
   useChannelIOEvent('onShowMessenger', () => {
-    console.log('Messenger opened!');
+    console.log('messenger opened!');
   });
 
-  useChannelIOEvent('onChangeProfile', user => {
-    console.log('User updated:', user);
+  useChannelIOEvent('onFollowUpChanged', profile => {
+    console.log('profile updated:', profile);
   });
 
   return null;
 };
-```
-
-## Pure APIs
-
-You can use Channel IO API wrapper outside of React. Usage are same with [official API](https://developers.channel.io/docs/web-channel-io), but typed via TypeScript.
-
-**WARNING: DO NOT USE with `<ReactChannelIO />`, because there is chance to overrides attached callbacks of react-channel-plugin and which will cause malfunctioning.**
-
-```ts
-import { ChannelIO } from 'react-channel-plugin';
-
-ChannelIO('boot');
-
-ChannelIO('onChatCreated', () => {
-  console.log('User chat created!');
-});
 ```
 
 ## Playground
@@ -255,12 +233,6 @@ ChannelIO('onChatCreated', () => {
 Playground for react-channel-plugin.
 
 [https://ukjinjang.github.io/react-channel-plugin](https://ukjinjang.github.io/react-channel-plugin)
-
-## TypeScript
-
-Please use typescript version higher than 3.8.
-
-Thanks to awesome util [downlevel-dts](https://github.com/sandersn/downlevel-dts), we can convert d.ts file to use at older version of TypeScript even code using newer feature (like [Labeled Tuple Elements](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html#labeled-tuple-elements)).
 
 ## Unit Test
 
@@ -293,31 +265,6 @@ render(<ComponentWithChannelHook {...props} />, {
 | MS Edge (Chromium)        | ✅   |
 | Mozilla Firefox           | ✅   |
 | Electron                  | ✅   |
-| IE 11                     | ⚠️ † |
-
-> † Since [Cypress not supports IE 11](https://docs.cypress.io/guides/guides/launching-browsers#Browsers), tested by hand (and may not fully tested).
-
-### IE 11 support discontinued
-
-Channel IO offically said via email, the support is gradually being discontinued. Contact to Channel IO for more information. This is extraction of their email contents:
-
-> ### 인터넷 익스플로러(IE) 지원이 점차 중단됩니다.
->
-> #### 지원중단 사유 
-> - 마이크로소프트의 IE 지원 종료 선언 
-> - 취약한 보안성, 느린 속도 등 안정적이지 않은 환경
->
-> #### 단, IE를 계속해서 사용하셔도 불편 없도록 다음과 같이 적용합니다. 
-> 1. 익스플로러 웹사이트에서 고객이 채팅버튼을 누르면, 채팅창은 엣지 Edge 브라우저로 열립니다.  (단, 윈도우7/8 에서는 > iframe 적용)
-> 1. 고객이 다른 경로로 익스플로러에서 채팅창을 열게 되면, 레이아웃이 다소 깨져 보일 수 있어요.
-> #### 고객을 놓치면 안되죠! 
-> - 화면이 예쁘게 보이지 않더라도 고객과 정상적으로 채팅상담 가능하며, 이벤트 추적 등 핵심적인 기능은 모두 지원됩니다.
->
-> #### 참고사항
-> - 채널톡을 이용하시는 고객 중 인터넷 익스플로러 사용자 비중 약 3% 
-> - 인터넷 익스플로러 최종 지원종료일은 2022년 6월 경으로 예정
->
-> 💡 만약 핵심 고객군이 인터넷 익스플로러를 주로 사용하는 서비스라면, 미리 채널톡으로 문의 주세요.
 
 ## Issues
 

@@ -1,12 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "playground/**/*.ts",
-    "playground/**/*.tsx",
     "cypress/**/*.js",
     "cypress/**/*.ts",
-    "snowpack.config.ts"
+    "playground/**/*.ts",
+    "playground/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "*.config.ts"
   ]
 }

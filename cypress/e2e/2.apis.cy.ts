@@ -1,24 +1,33 @@
 describe('Plugin APIs', () => {
-  it('should show plugin messenger, when `showMessenger` called', () => {
+  beforeEach(() => {
     cy.visit({ url: '/', qs: { autoboot: true } });
+  });
+
+  it('should show plugin messenger, when `showMessenger` called', () => {
+    cy.get('[data-ch-testid="launcher"]').click();
+
     cy.get('button[data-cy="action-button-showMessenger"]').click();
 
     cy.getChannelIOIframeBody()
       .find('[data-ch-testid="lounge"]')
-      .should('contain.text', 'Channel.io');
+      .should('contain.text', 'Channel Talk');
   });
 
   it('should hide plugin messenger, when `hideMessenger` called', () => {
+    cy.get('[data-ch-testid="launcher"]').click();
+
     cy.get('button[data-cy="action-button-hideMessenger"]').click();
 
     cy.getChannelIOIframeBody()
       .find('[data-ch-testid="lounge"]')
-      .should('not.exist');
+      .should(el => Cypress.dom.isHidden(el));
 
     cy.get('[data-ch-testid="launcher"]').should('exist');
   });
 
   it('should open chatroom of plugin messenger, when `openChat` called', () => {
+    cy.get('[data-ch-testid="launcher"]').click();
+
     cy.get('button[data-cy="action-button-openChat"]').click();
 
     cy.getChannelIOIframeBody()
@@ -29,78 +38,70 @@ describe('Plugin APIs', () => {
     // .should('have.value', 'Hi, this is a test message!');
   });
 
-  it('should back to lounge of plugin messenger, when `lounge` called', () => {
-    cy.get('button[data-cy="action-button-lounge"]').click();
-
-    cy.getChannelIOIframeBody()
-      .find('[data-ch-testid="lounge"]')
-      .should('exist');
-  });
-
   it('should change user profile of plugin messenger, when `updateUser` called', () => {
-    cy.getChannelIOIframeBody()
-      .find('button:has(svg[width="20"])')
-      .first()
-      .click();
-    cy.getChannelIOIframeBody().should('contain.text', 'Info & Settings');
+    cy.get('[data-ch-testid="launcher"]').click();
 
-    cy.getChannelIOIframeBody().contains('button', 'Edit').click();
+    cy.getChannelIOIframeBody().find('a[href="/setting"]').click();
+
+    cy.get('button[data-cy="action-button-updateUser"]').click();
 
     cy.getChannelIOIframeBody()
-      .find('input[type="tel"]')
-      .invoke('val')
-      .then(tel1 => {
+      .find('[data-testid="setting-profile-contact-email"]')
+      .invoke('text')
+      .then(email1 => {
         cy.get('button[data-cy="action-button-updateUser"]').click();
 
-        cy.wait(2000);
+        cy.wait(1000);
 
         cy.getChannelIOIframeBody()
-          .find('input[type="tel"]')
-          .invoke('val')
-          .then(tel2 => {
-            expect(tel1).not.to.equal(tel2);
+          .find('[data-testid="setting-profile-contact-email"]')
+          .invoke('text')
+          .then(email2 => {
+            expect(email1).not.to.equal(email2);
 
             cy.get('button[data-cy="action-button-updateUser"]').click();
 
-            cy.wait(2000);
+            cy.wait(1000);
 
             cy.getChannelIOIframeBody()
-              .find('input[type="tel"]')
-              .invoke('val')
-              .then(tel3 => {
-                expect(tel2).not.to.equal(tel3);
+              .find('[data-testid="setting-profile-contact-email"]')
+              .invoke('text')
+              .then(email3 => {
+                expect(email2).not.to.equal(email3);
               });
           });
       });
   });
 
   it('should hide launcher button of plugin messenger, when `hideChannelButton` called', () => {
-    cy.reload();
-
-    cy.get('[data-ch-testid="launcher"]').should('be.visible');
+    cy.get('[data-ch-testid="launcher"]').should(el =>
+      Cypress.dom.isVisible(el)
+    );
 
     cy.get('button[data-cy="action-button-hideChannelButton"]').click();
 
-    cy.get('[data-ch-testid="launcher"]').should('not.be.visible');
+    cy.get('[data-ch-testid="launcher"]').should(el =>
+      Cypress.dom.isHidden(el)
+    );
   });
 
   it('should show launcher button of plugin messenger, when `showChannelButton` called', () => {
-    cy.get('[data-ch-testid="launcher"]').should('not.be.visible');
+    cy.get('[data-ch-testid="launcher"]').should(el =>
+      Cypress.dom.isHidden(el)
+    );
 
     cy.get('button[data-cy="action-button-showChannelButton"]').click();
 
-    cy.get('[data-ch-testid="launcher"]').should('be.visible');
+    cy.get('[data-ch-testid="launcher"]').should(el =>
+      Cypress.dom.isVisible(el)
+    );
   });
 
   it('should show plugin messenger, when custom launcher clicked which rendered after plugin booted', () => {
-    cy.reload();
-
-    cy.wait(2000);
-
     cy.get('[data-cy="custom-test-launcher"]').click();
 
     cy.getChannelIOIframeBody()
       .find('[data-ch-testid="lounge"]')
-      .should('contain.text', 'Channel.io');
+      .should('contain.text', 'Channel Talk');
   });
 });

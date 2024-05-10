@@ -1,0 +1,61 @@
+name: Push
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.5
+    - run: yarn install --frozen-lockfile
+    - run: yarn lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.5
+    - run: yarn install --frozen-lockfile
+    - run: yarn build
+    - uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: |
+          es/
+          lib/
+          LICENSE
+          package.json
+          README.md
+
+  # NOTE: using CircleCI for e2e tests since github actions doesn't work with Channel IO API (response as 401)
+  # e2e:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - uses: cypress-io/github-action@v6
+  #     with:
+  #       browser: chrome
+  #       build: yarn playground:e2e
+  #       start: yarn serve
+  #       wait-on: 'http://localhost:8090'
+  #       record: true
+  #     env:
+  #         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  #   - uses: actions/upload-artifact@v4
+  #     with:
+  #       name: build
+  #       path: |
+  #         cypress/screenshots/
+  #         cypress/videos/
+  #   - run: yarn coverage:combine
+  #   - uses: codecov/codecov-action@v4
+  #     with:
+  #       token: ${{ secrets.CODECOV_TOKEN }}
+  #       file: coverage/clover.xml

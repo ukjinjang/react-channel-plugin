@@ -1,9 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const StyledButton = styled.button`
+const Button = styled.button`
   display: inline-block;
   padding: 8px 20px 8px 20px;
   line-height: 1.54;
@@ -21,9 +18,5 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   }
 `;
-
-const Button: React.FC<ButtonProps> = props => {
-  return <StyledButton {...props} />;
-};
 
 export default Button;

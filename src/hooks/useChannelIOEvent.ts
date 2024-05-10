@@ -1,84 +1,63 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { ReactChannelIOContext } from '../context';
-import {
-  checkEventMethodValidity,
-  REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
-} from '../events';
-import { useCallbackProp, warnLogger } from '../utils';
+import { _INTERNAL_EVENT_API_NAMES, _INTERNAL_EVENT_TYPE } from '../events';
+import { warnLogger } from '../utils/logger';
+import { useCurrentRef } from '../utils/useCurrentRef';
+import { _useContext } from './_useContext';
 
-import type {
-  ChannelIOEventMethod,
-  ChannelIOEventMethodArgsRecords,
-} from '../ChannelIO';
-import type { ReactChannelIOInternalCustomEventDetail } from '../events';
+import type { _InternalEventDetail, EventFnArgsMap } from '../events';
+
+//
+//
+//
 
 /**
- * Using ChannelIO events through React hook.
+ * A hook to handle Channel IO event.
  *
- * @link https://developers.channel.io/docs/web-channel-io
+ * @see https://developers.channel.io/docs/web-channelio
  */
-export const useChannelIOEvent = <M extends ChannelIOEventMethod>(
-  method: M,
-  callback?: ChannelIOEventMethodArgsRecords[M][number]
+export const useChannelIOEvent = <K extends keyof EventFnArgsMap>(
+  name: K,
+  callback?: (...args: EventFnArgsMap[K]) => any
 ) => {
-  const _callback = useCallbackProp(callback);
+  const callbackRef = useCurrentRef(callback);
 
-  const context = useContext(ReactChannelIOContext);
-  if (!context) {
-    throw new Error(
-      'Oops, looks like you forgot Provider for ChannelIO hooks.'
-    );
-  }
-
-  /**
-   * Handle Channel IO event.
-   */
-  const handleChannelIOEvent = React.useCallback(
-    (evt: Event) => {
-      const channelIOEvent = (
-        evt as CustomEvent<ReactChannelIOInternalCustomEventDetail>
-      ).detail;
-
-      if (!checkEventMethodValidity(channelIOEvent.method)) {
-        return;
-      }
-
-      if (method !== channelIOEvent.method) {
-        return;
-      }
-
-      if (typeof _callback.current === 'function') {
-        (_callback.current as any)(...channelIOEvent.args);
-      }
-    },
-    [method, _callback]
-  );
+  _useContext();
 
   //
   // Add event listener for Channel IO event.
   //
-  useEffect(() => {
-    if (!checkEventMethodValidity(method)) {
-      warnLogger(
-        'Given method name is not exist at Channel IO.',
-        'Please refer https://developers.channel.io/docs/web-channel-io.'
-      );
-      return;
-    }
+  useEffect(
+    () => {
+      if (!_INTERNAL_EVENT_API_NAMES.includes(name)) {
+        warnLogger(
+          'Given method name is not exist at Channel IO.',
+          'Please refer https://developers.channel.io/docs/web-channelio.'
+        );
+        return;
+      }
 
-    document.addEventListener(
-      REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
-      handleChannelIOEvent,
-      false
-    );
+      /**
+       * Handle Channel IO event.
+       */
+      const _handle = (evt: Event) => {
+        const detail = (evt as CustomEvent)?.detail as _InternalEventDetail;
+        if (name !== detail.name) {
+          return;
+        }
 
-    return () => {
-      document.removeEventListener(
-        REACT_CHANNELIO_INTERNAL_CUSTOMEVENT_TYPE,
-        handleChannelIOEvent,
-        false
-      );
-    };
-  }, [method, handleChannelIOEvent]);
+        if (typeof callbackRef.current === 'function') {
+          (callbackRef.current as any)(...(detail.args as any));
+        }
+      };
+
+      document.addEventListener(_INTERNAL_EVENT_TYPE, _handle, false);
+
+      return () => {
+        document.removeEventListener(_INTERNAL_EVENT_TYPE, _handle, false);
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [name]
+  );
 };

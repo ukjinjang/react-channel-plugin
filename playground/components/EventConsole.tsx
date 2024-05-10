@@ -1,6 +1,6 @@
 import React from 'react';
 import { useChannelIOEvent } from 'react-channel-plugin';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const StyledEventConsole = styled.div`
   margin-bottom: 2rem;
@@ -18,14 +18,8 @@ const EventConsole: React.FC = () => {
   const [log, setLog] = React.useState('');
 
   const handleLog = (name: string) => {
-    return (value?: any) => {
-      const newLogValue =
-        typeof value === 'undefined' || value === ''
-          ? 'no message'
-          : `${JSON.stringify(value, null, 2)}`;
-
-      const newLog = `[${name}] - ${newLogValue}`;
-
+    return (...args: unknown[]) => {
+      const newLog = `[${name}] - ${JSON.stringify(args, null, 2)}`;
       setLog(prev => (prev ? `${prev}\n\n${newLog}` : newLog));
     };
   };
@@ -45,7 +39,7 @@ const EventConsole: React.FC = () => {
   useChannelIOEvent('onHideMessenger', handleLog('onHideMessenger'));
   useChannelIOEvent('onBadgeChanged', handleLog('onBadgeChanged'));
   useChannelIOEvent('onChatCreated', handleLog('onChatCreated'));
-  useChannelIOEvent('onProfileChanged', handleLog('onProfileChanged'));
+  useChannelIOEvent('onFollowUpChanged', handleLog('onFollowUpChanged'));
   useChannelIOEvent('onUrlClicked', handleLog('onUrlClicked'));
 
   //

@@ -1,8 +1,7 @@
 export * from './ReactChannelIO';
+export * from './components';
+export * from './hooks';
 export { ChannelIO } from './ChannelIO';
-
-export * from './hooks/useChannelIOApi';
-export * from './hooks/useChannelIOEvent';
 
 export type {
   ChannelIOBootOption,

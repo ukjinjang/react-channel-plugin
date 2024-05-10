@@ -1,6 +1,9 @@
 describe('Booting', () => {
-  it('should contains "react-channel-plugin" as title', () => {
+  beforeEach(() => {
     cy.visit('/');
+  });
+
+  it('should contains "react-channel-plugin" as title', () => {
     cy.get('h1').should('contain.text', 'react-channel-plugin');
   });
 
@@ -10,6 +13,7 @@ describe('Booting', () => {
   });
 
   it('should shutdown plugin, when `shutdown` called', () => {
+    cy.get('button[data-cy="action-button-boot"]').click();
     cy.get('button[data-cy="action-button-shutdown"]').click();
     cy.get('[data-ch-testid="launcher"]').should('not.exist');
   });
