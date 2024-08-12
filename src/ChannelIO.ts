@@ -146,7 +146,7 @@ const CHANNEL_IO_API_NAMES = Object.freeze([
   'showMessenger',
   'hideMessenger',
   'openChat',
-  'openSupportBot',
+  'openWorkflow',
   'track',
   'onShowMessenger',
   'onHideMessenger',
