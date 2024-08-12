@@ -77,7 +77,7 @@ const App: React.FC = () => {
     showMessenger,
     hideMessenger,
     openChat,
-    openSupportBot,
+    openWorkflow,
     track,
     updateUser,
     addTags,
@@ -144,19 +144,17 @@ const App: React.FC = () => {
         />
 
         <FeatureSection
-          title="openSupportBot"
+          title="openWorkflow"
           description="Opens a chat and initiates a specific support bot. (won't work since demo account is not paid account)"
-          link="https://developers.channel.io/docs/web-channelio#openchat"
+          link="https://developers.channel.io/docs/web-channelio#openworkflow"
           disabled={!isBooted}
-          onClick={() =>
-            openSupportBot('101816', 'Hi, this is a test message!')
-          }
+          onClick={() => openWorkflow('101816')}
         />
 
         <FeatureSection
           title="track"
           description="Tracks an event."
-          link="https://developers.channel.io/docs/web-channelio#openchat"
+          link="https://developers.channel.io/docs/web-channelio#track"
           disabled={!isBooted}
           onClick={() => track('', {})}
         />

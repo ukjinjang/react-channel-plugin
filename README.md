@@ -154,7 +154,7 @@ Provides API of Channel IO as React hook. Please refer [official docs](https://d
 - `showMessenger`
 - `hideMessenger`
 - `openChat`
-- `openSupportBot`
+- `openWorkflow`
 - `track`
 - `clearCallbacks`
 - `updateUser`

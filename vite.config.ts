@@ -25,6 +25,8 @@ export default defineConfig(({ mode }) => {
   return {
     root,
 
+    base: './',
+
     build: {
       outDir: path.join(cwd, 'build'),
       emptyOutDir: true,
