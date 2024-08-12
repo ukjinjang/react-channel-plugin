@@ -60,7 +60,7 @@ const StyledHeaderIcon = styled.img`
 const Header: React.FC = () => {
   return (
     <StyledHeader>
-      <StyledHeaderIcon src="/favicon.png" alt="favicon" />
+      <StyledHeaderIcon src="./favicon.png" alt="favicon" />
 
       <StyledHeaderTitle>
         <h1>react-channel-plugin</h1>
