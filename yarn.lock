@@ -1145,10 +1145,10 @@
     "@babel/helper-validator-identifier" "^7.24.5"
     to-fast-properties "^2.0.0"
 
-"@channel.io/channel-web-sdk-loader@~1.1.7":
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/@channel.io/channel-web-sdk-loader/-/channel-web-sdk-loader-1.1.7.tgz#468f3c0e9eab215b05f8ba998532b54e853f47b3"
-  integrity sha512-wIHvOQpYTPpHGg0mS/CW/WKNONF1phmhHlGpfXGbHai81OgeUiyLtkwuNaiM7bR4QF8uIB+p0RrM/evn2Zb7pw==
+"@channel.io/channel-web-sdk-loader@~2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@channel.io/channel-web-sdk-loader/-/channel-web-sdk-loader-2.0.0.tgz#d8bc196222a9b8045af6c8418f7693c466db6100"
+  integrity sha512-Z8DDpf2lAaYr/3aAnwQtxg0L8MYWgi/hhGV8c5/SLCV6Fx5Gssj7mfyHHrCVC315B0icmLYqZsXBlmbf6cN8Jg==
 
 "@colors/colors@1.5.0":
   version "1.5.0"
